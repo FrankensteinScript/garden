@@ -12,23 +12,14 @@ export class PlantsService implements OnModuleInit {
         private readonly plantRepository: Repository<Plant>
     ) {}
 
-    /**
-     * Called once the module has been initialized
-     */
     async onModuleInit(): Promise<void> {
         await this.seedPlants();
     }
 
-    /**
-     * Seed initial plants if table is empty
-     */
     async seedPlants(): Promise<void> {
         const count = await this.plantRepository.count();
 
-        if (count > 0) {
-            this.logger.log('Plants already seeded, skipping.');
-            return;
-        }
+        if (count > 0) return;
 
         this.logger.log('Seeding initial plants...');
 
