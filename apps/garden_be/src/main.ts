@@ -12,10 +12,7 @@ async function bootstrap() {
     await plantsService.seedPlants();
     const port = process.env.PORT || 3000;
     await app.listen(port);
-    await app.listen(3000);
-    Logger.log(
-        `🚀 Application is running on: http://localhost:${port}/${globalPrefix}`
-    );
+    Logger.log(`🚀 Application is running on: http://localhost:${port}`);
 }
 
 bootstrap();

@@ -1,8 +1,6 @@
-import { Module, OnApplicationBootstrap } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { PlantsModule } from './plants/plants.module';
-import { Plant } from './plants/entity/plant.entity';
-import { PlantsService } from './plants/services/plants.service';
 
 @Module({
     imports: [
@@ -13,17 +11,10 @@ import { PlantsService } from './plants/services/plants.service';
             username: process.env.DB_USER || 'garden',
             password: process.env.DB_PASSWORD || 'secret',
             database: process.env.DB_NAME || 'garden',
-            entities: [Plant],
             autoLoadEntities: true,
             synchronize: true,
         }),
         PlantsModule,
     ],
 })
-export class AppModule implements OnApplicationBootstrap {
-    constructor(private readonly plantsService: PlantsService) {}
-
-    async onApplicationBootstrap() {
-        await this.plantsService.seedPlants();
-    }
-}
+export class AppModule {}

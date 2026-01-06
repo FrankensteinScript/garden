@@ -1,11 +1,23 @@
-import { OptionalProps, Property } from '@mikro-orm/core';
+import {
+    PrimaryGeneratedColumn,
+    CreateDateColumn,
+    UpdateDateColumn,
+} from 'typeorm';
 
-export abstract class EntityBase {
-    [OptionalProps]?: 'createdAt' | 'updatedAt';
+export abstract class BaseEntity {
+    @PrimaryGeneratedColumn('uuid')
+    id!: string;
 
-    @Property({ type: 'timestamptz' })
-    createdAt: Date = new Date();
+    @CreateDateColumn({
+        type: 'timestamptz',
+        default: () => 'CURRENT_TIMESTAMP',
+    })
+    createdAt!: Date;
 
-    @Property({ type: 'timestamptz', onUpdate: () => new Date() })
-    updatedAt: Date = new Date();
+    @UpdateDateColumn({
+        type: 'timestamptz',
+        default: () => 'CURRENT_TIMESTAMP',
+        onUpdate: 'CURRENT_TIMESTAMP',
+    })
+    updatedAt!: Date;
 }

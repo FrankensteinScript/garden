@@ -3,9 +3,10 @@
     "version": "0.0.0",
     "license": "MIT",
     "scripts": {
-        "start": "nx run-many --target=serve --projects=garden_be,garden_fe --parallel --verbose",
-        "build:all": "nx run-many --target=build --projects=garden_be,garden_fe --parallel --verbose",
-        "start:docker": "node dist/apps/garden_be/main.js"
+        "build": "nx run @garden/garden_be:build",
+        "serve": "nx run @garden/garden_be:serve",
+        "build:all": "nx run-many --target=build --projects=garden_be,garden_fe --parallel",
+        "start": "nx run-many --target=serve --projects=garden_be,garden_fe --parallel"
     },
     "private": true,
     "devDependencies": {
@@ -47,10 +48,11 @@
         "webpack-cli": "^5.1.4"
     },
     "dependencies": {
-        "@nestjs/common": "^10.0.2",
-        "@nestjs/core": "^10.0.2",
         "@nestjs/platform-express": "^10.0.2",
         "@nx/eslint-plugin": "^21.2.4",
+        "@nestjs/common": "^10.0.0",
+        "@nestjs/core": "^10.0.0",
+        "@nestjs/typeorm": "^11.0.0",
         "axios": "^1.6.0",
         "koa": "2.16.2",
         "next": "^15.5.4",

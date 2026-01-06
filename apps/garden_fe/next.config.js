@@ -10,10 +10,6 @@ const { composePlugins, withNx } = require('@nx/next');
 const nextConfig = {
     nx: {},
 
-    /**
-     * Explicitně nastavíme root monorepa,
-     * aby Next nehledal lockfile mimo projekt
-     */
     outputFileTracingRoot: path.join(__dirname, '../../'),
 };
 

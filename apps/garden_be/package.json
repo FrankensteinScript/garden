@@ -7,29 +7,17 @@
             "build": {
                 "executor": "nx:run-commands",
                 "options": {
-                    "command": "webpack-cli build",
-                    "args": [
-                        "node-env=production"
-                    ]
+                    "command": "tsc -p apps/garden_be/tsconfig.app.json"
                 },
                 "configurations": {
-                    "development": {
-                        "args": [
-                            "node-env=development"
-                        ]
-                    }
+                    "development": {},
+                    "production": {}
                 }
             },
             "serve": {
-                "continuous": true,
                 "executor": "@nx/js:node",
-                "defaultConfiguration": "development",
-                "dependsOn": [
-                    "build"
-                ],
                 "options": {
-                    "buildTarget": "@garden/garden_be:build",
-                    "runBuildTargetDependencies": false
+                    "buildTarget": "@garden/garden_be:build"
                 },
                 "configurations": {
                     "development": {
@@ -43,10 +31,12 @@
         }
     },
     "dependencies": {
-        "@mikro-orm/core": "^6.6.3",
-        "@nestjs/typeorm": "^11.0.0",
         "pg": "^8.16.3",
         "reflect-metadata": "^0.2.2",
         "typeorm": "^0.3.28"
+    },
+    "devDependencies": {
+        "typescript": "^5.7.3",
+        "@nx/js": "^21.3.11"
     }
 }

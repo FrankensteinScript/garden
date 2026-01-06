@@ -1,11 +1,8 @@
-import { Entity, PrimaryKey, Property } from '@mikro-orm/core';
-import { EntityBase } from '../../infrastructure/database/base.entity';
+import { Entity, Column } from 'typeorm';
+import { BaseEntity } from '../../infrastructure/database/base.entity';
 
 @Entity()
-export class Plant extends EntityBase {
-    @PrimaryKey()
-    id!: number;
-
-    @Property()
+export class Plant extends BaseEntity {
+    @Column({ type: 'varchar', length: 100 })
     name!: string;
 }
