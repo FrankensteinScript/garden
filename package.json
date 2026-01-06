@@ -38,12 +38,6 @@
         "tslib": "^2.3.0",
         "typescript": "~5.7.2"
     },
-    "workspaces": [
-        "apps/*",
-        "libs/*",
-        "apps/libs/*",
-        "garden_fe"
-    ],
     "dependencies": {
         "@nx/eslint-plugin": "^21.2.4",
         "koa": "2.16.2",
