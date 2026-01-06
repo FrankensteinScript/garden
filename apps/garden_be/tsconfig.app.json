@@ -1,11 +1,12 @@
 {
     "extends": "../../tsconfig.base.json",
     "compilerOptions": {
-        "module": "esnext",
-        "target": "es2022",
+        "target": "es2020",
         "outDir": "dist",
+        "module": "nodenext",
         "types": ["node"],
         "rootDir": "src",
+        "moduleResolution": "nodenext",
         "tsBuildInfoFile": "dist/tsconfig.app.tsbuildinfo",
         "strict": true,
         "esModuleInterop": true,
@@ -14,5 +15,9 @@
     },
     "include": ["src/**/*.ts"],
     "exclude": ["eslint.config.js", "eslint.config.cjs", "eslint.config.mjs"],
-    "references": []
+    "references": [
+        {
+            "path": "../libs/utils/tsconfig.lib.json"
+        }
+    ]
 }
