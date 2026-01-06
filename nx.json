@@ -28,12 +28,7 @@
             },
             "exclude": ["apps/libs/utils/*", "apps/libs/ui/*"]
         },
-        {
-            "plugin": "@nx/eslint/plugin",
-            "options": {
-                "targetName": "lint"
-            }
-        },
+
         {
             "plugin": "@nx/js/typescript",
             "include": ["apps/libs/utils/*", "apps/libs/ui/*"],
@@ -52,6 +47,17 @@
                 "serveStaticTargetName": "serve-static",
                 "buildDepsTargetName": "build-deps",
                 "watchDepsTargetName": "watch-deps"
+            }
+        },
+        {
+            "plugin": "@nx/webpack/plugin",
+            "options": {
+                "buildTargetName": "build",
+                "serveTargetName": "serve",
+                "previewTargetName": "preview",
+                "buildDepsTargetName": "build-deps",
+                "watchDepsTargetName": "watch-deps",
+                "serveStaticTargetName": "serve-static"
             }
         }
     ],
