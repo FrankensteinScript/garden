@@ -3,10 +3,12 @@
     "version": "0.0.0",
     "license": "MIT",
     "scripts": {
-        "build": "nx run @garden/garden_be:build",
-        "serve": "nx run @garden/garden_be:serve",
+        "be:build": "nx run garden_be:build",
+        "be:serve": "nx run garden_be:serve",
+        "fe:dev": "nx run garden_fe:dev",
+        "fe:build": "nx run garden_fe:build",
         "build:all": "nx run-many --target=build --projects=garden_be,garden_fe --parallel",
-        "start": "nx run-many --target=serve --projects=garden_be,garden_fe --parallel"
+        "start": "concurrently -k \"nx run garden_be:serve\" \"nx run garden_fe:dev\""
     },
     "private": true,
     "devDependencies": {
@@ -32,6 +34,7 @@
         "@types/react": "19.0.0",
         "@types/react-dom": "19.0.0",
         "autoprefixer": "10.4.13",
+        "concurrently": "^9.2.1",
         "esbuild": "^0.25.8",
         "eslint": "9.8.0",
         "eslint-config-next": "^15.2.4",
@@ -48,11 +51,11 @@
         "webpack-cli": "^5.1.4"
     },
     "dependencies": {
-        "@nestjs/platform-express": "^10.0.2",
-        "@nx/eslint-plugin": "^21.2.4",
         "@nestjs/common": "^10.0.0",
         "@nestjs/core": "^10.0.0",
+        "@nestjs/platform-express": "^10.0.2",
         "@nestjs/typeorm": "^11.0.0",
+        "@nx/eslint-plugin": "^21.2.4",
         "axios": "^1.6.0",
         "koa": "2.16.2",
         "next": "^15.5.4",
