@@ -27,7 +27,8 @@
     },
     "outDir": "dist",
     "rootDir": "src",
-    "tsBuildInfoFile": "dist/tsconfig.tsbuildinfo"
+    "tsBuildInfoFile": "dist/tsconfig.tsbuildinfo",
+    "isolatedModules": true
   },
   "include": [
     "../dist/garden_fe/.next/types/**/*.ts",

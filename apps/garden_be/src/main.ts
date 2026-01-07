@@ -1,13 +1,15 @@
-import Router from 'koa-router';
-import bodyParser from 'koa-bodyparser';
-import { PORT } from '@garden/utils';
-import Koa from 'koa';
+import { NestFactory } from '@nestjs/core';
+import { AppModule } from './app.module';
+import { Logger } from '@nestjs/common';
 
-export const app = new Koa({ proxy: true });
+async function bootstrap() {
+    const app = await NestFactory.create(AppModule);
+    app.enableCors();
+    const globalPrefix = 'api';
+    app.setGlobalPrefix(globalPrefix);
+    const port = process.env.PORT || 8080;
+    await app.listen(port);
+    Logger.log(`Application is running on: http://localhost:${port}`);
+}
 
-const router = new Router();
-
-app.use(bodyParser());
-app.use(router.routes());
-app.use(router.allowedMethods());
-app.listen(PORT, () => console.log(`listening on http://localhost:${PORT}...`));
+bootstrap();

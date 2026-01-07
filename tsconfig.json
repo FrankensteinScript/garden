@@ -13,7 +13,7 @@
             "path": "./apps/libs/ui"
         },
         {
-            "path": "./garden_fe"
+            "path": "./apps/garden_fe"
         }
     ]
 }
