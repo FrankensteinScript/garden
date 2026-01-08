@@ -1,8 +1,9 @@
-import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
+import { Column, Entity, ManyToMany, ManyToOne, OneToMany } from 'typeorm';
 import { BaseEntity } from '../../infrastructure/database/base.entity';
 import { History } from '../../history/entity/history.entity';
 import { GrowthConditions } from '../../growConditions/entity/growthConditions.entity';
 import { Room } from '../../room/entity/room.entity';
+import { Notification } from '../../notification/entity/notification.entity';
 
 @Entity({ name: 'herb' })
 export class Herb extends BaseEntity {
@@ -32,4 +33,7 @@ export class Herb extends BaseEntity {
 
     @ManyToOne(() => Room, (room) => room.herbs)
     room: Room;
+
+    @ManyToMany(() => Notification, (notification) => notification.herbs)
+    notifications: Notification[];
 }

@@ -1,6 +1,7 @@
 import { Column, Entity, ManyToMany } from 'typeorm';
 import { BaseEntity } from '../../infrastructure/database/base.entity';
 import { Room } from '../../room/entity/room.entity';
+import { Notification } from '../../notification/entity/notification.entity';
 
 @Entity({ name: 'user' })
 export class User extends BaseEntity {
@@ -14,5 +15,8 @@ export class User extends BaseEntity {
     password: string;
 
     @ManyToMany(() => Room, (room) => room.user)
-    room: Room[];
+    rooms: Room[];
+
+    @ManyToMany(() => Notification, (notification) => notification.users)
+    notifications: Notification[];
 }
