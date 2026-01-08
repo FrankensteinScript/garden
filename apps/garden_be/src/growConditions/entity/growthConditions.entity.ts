@@ -1,6 +1,7 @@
-import { Column, Entity } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 import { BaseEntity } from '../../infrastructure/database/base.entity';
 import { SoilType, type SoilTypeEnum } from '../../utils/const';
+import { Herb } from '../../herb/entity/herb.entity';
 
 @Entity({ name: 'growthConditions' })
 export class GrowthConditions extends BaseEntity {
@@ -22,4 +23,10 @@ export class GrowthConditions extends BaseEntity {
         default: SoilType.LOAMY,
     })
     soilType: SoilTypeEnum;
+
+    @ManyToOne(() => Herb, (herb) => herb.growthConditions, {
+        onDelete: 'CASCADE',
+    })
+    @JoinColumn({ name: 'herb_id' })
+    herb: Herb;
 }

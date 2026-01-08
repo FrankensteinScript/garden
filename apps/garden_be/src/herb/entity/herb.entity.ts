@@ -1,6 +1,7 @@
 import { Column, Entity, OneToMany } from 'typeorm';
 import { BaseEntity } from '../../infrastructure/database/base.entity';
 import { History } from '../../history/entity/history.entity';
+import { GrowthConditions } from '../../growConditions/entity/growthConditions.entity';
 
 @Entity({ name: 'herb' })
 export class Herb extends BaseEntity {
@@ -24,4 +25,7 @@ export class Herb extends BaseEntity {
 
     @OneToMany(() => History, (history) => history.herb)
     histories: History[];
+
+    @OneToMany(() => GrowthConditions, (condition) => condition.herb)
+    growthConditions: GrowthConditions[];
 }
