@@ -1,6 +1,7 @@
-import { Column, Entity, JoinColumn, OneToMany } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToMany, OneToMany } from 'typeorm';
 import { BaseEntity } from '../../infrastructure/database/base.entity';
 import { Herb } from '../../herb/entity/herb.entity';
+import { User } from '../../user/entity/user.entity';
 
 @Entity({ name: 'room' })
 export class Room extends BaseEntity {
@@ -24,4 +25,10 @@ export class Room extends BaseEntity {
     })
     @JoinColumn({ name: 'herb_ids' })
     herbs: Herb[];
+
+    @ManyToMany(() => User, (user) => user.room, {
+        onDelete: 'CASCADE',
+    })
+    @JoinColumn({ name: 'user' })
+    user: User[];
 }
