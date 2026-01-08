@@ -6,29 +6,29 @@ import { User } from '../../user/entity/user.entity';
 @Entity({ name: 'room' })
 export class Room extends BaseEntity {
     @Column({ type: 'varchar' })
-    name: string;
+    name!: string;
 
     @Column({ type: 'text', nullable: true })
     description?: string;
 
     @Column({ type: 'float' })
-    temperature: number;
+    temperature!: number;
 
     @Column({ type: 'float' })
-    humidity: number;
+    humidity!: number;
 
     @Column({ type: 'float' })
-    waterLevel: number;
+    waterLevel!: number;
 
     @OneToMany(() => Herb, (herb) => herb.room, {
         onDelete: 'CASCADE',
     })
     @JoinColumn({ name: 'herb_ids' })
-    herbs: Herb[];
+    herbs!: Herb[];
 
-    @ManyToMany(() => User, (user) => user.room, {
+    @ManyToMany(() => User, (user) => user.rooms, {
         onDelete: 'CASCADE',
     })
     @JoinColumn({ name: 'user' })
-    user: User[];
+    user!: User[];
 }

@@ -6,27 +6,27 @@ import { Herb } from '../../herb/entity/herb.entity';
 @Entity({ name: 'growthConditions' })
 export class GrowthConditions extends BaseEntity {
     @Column({ type: 'float' })
-    minTemperature: number;
+    minTemperature!: number;
 
     @Column({ type: 'float' })
-    maxTemperature: number;
+    maxTemperature!: number;
 
     @Column({ type: 'float' })
-    minHumidity: number;
+    minHumidity!: number;
 
     @Column({ type: 'float' })
-    maxHumidity: number;
+    maxHumidity!: number;
 
     @Column({
         type: 'enum',
         enum: Object.values(SoilType),
         default: SoilType.LOAMY,
     })
-    soilType: SoilTypeEnum;
+    soilType!: SoilTypeEnum;
 
     @ManyToOne(() => Herb, (herb) => herb.growthConditions, {
         onDelete: 'CASCADE',
     })
     @JoinColumn({ name: 'herb_id' })
-    herb: Herb;
+    herb!: Herb;
 }

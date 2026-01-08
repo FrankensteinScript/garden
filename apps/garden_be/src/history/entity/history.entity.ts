@@ -5,13 +5,13 @@ import { Herb } from '../../herb/entity/herb.entity';
 @Entity({ name: 'history' })
 export class History extends BaseEntity {
     @Column({ type: 'timestamptz' })
-    wateredAt: Date;
+    wateredAt!: Date;
 
     @Column({ type: 'float' })
-    amountWater: number;
+    amountWater!: number;
 
     @Column({ type: 'float' })
-    temperature: number;
+    temperature!: number;
 
     @Column({ type: 'text', nullable: true })
     notes?: string;
@@ -20,5 +20,5 @@ export class History extends BaseEntity {
         onDelete: 'CASCADE',
     })
     @JoinColumn({ name: 'herb_id' })
-    herb: Herb;
+    herb!: Herb;
 }

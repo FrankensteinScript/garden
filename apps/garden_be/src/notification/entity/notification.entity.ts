@@ -7,23 +7,23 @@ import { User } from '../../user/entity/user.entity';
 @Entity({ name: 'notifications' })
 export class Notification extends BaseEntity {
     @Column({ type: 'enum', enum: Object.values(NotificationType) })
-    notificationType: NotificationTypeEnum;
+    notificationType!: NotificationTypeEnum;
 
     @Column({ type: 'text' })
-    message: string;
+    message!: string;
 
     @Column({ type: 'boolean' })
-    isRead: boolean;
+    isRead!: boolean;
 
     @ManyToMany(() => Herb, (herb) => herb.notifications, {
         onDelete: 'CASCADE',
     })
     @JoinColumn({ name: 'herb_id' })
-    herbs: Herb[];
+    herbs!: Herb[];
 
     @ManyToMany(() => User, (user) => user.notifications, {
         onDelete: 'CASCADE',
     })
     @JoinColumn({ name: 'user_id' })
-    users: User[];
+    users!: User[];
 }

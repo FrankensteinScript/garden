@@ -6,17 +6,17 @@ import { Notification } from '../../notification/entity/notification.entity';
 @Entity({ name: 'user' })
 export class User extends BaseEntity {
     @Column({ type: 'varchar' })
-    name: string;
+    name!: string;
 
     @Column({ type: 'varchar' })
-    email: string;
+    email!: string;
 
     @Column({ type: 'varchar' })
-    password: string;
+    password!: string;
 
     @ManyToMany(() => Room, (room) => room.user)
-    rooms: Room[];
+    rooms!: Room[];
 
     @ManyToMany(() => Notification, (notification) => notification.users)
-    notifications: Notification[];
+    notifications!: Notification[];
 }

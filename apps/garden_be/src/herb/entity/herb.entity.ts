@@ -8,32 +8,32 @@ import { Notification } from '../../notification/entity/notification.entity';
 @Entity({ name: 'herb' })
 export class Herb extends BaseEntity {
     @Column({ type: 'varchar', length: 256 })
-    name: string;
+    name!: string;
 
     @Column({ type: 'text' })
-    description: string;
+    description!: string;
 
     @Column({ type: 'float' })
-    temperature: number;
+    temperature!: number;
 
     @Column({ type: 'float' })
-    humidity: number;
+    humidity!: number;
 
     @Column({ type: 'float' })
-    soilMoisture: number;
+    soilMoisture!: number;
 
     @Column({ type: 'timestamptz' })
-    lastWatering: Date;
+    lastWatering!: Date;
 
     @OneToMany(() => History, (history) => history.herb)
-    histories: History[];
+    histories!: History[];
 
     @OneToMany(() => GrowthConditions, (condition) => condition.herb)
-    growthConditions: GrowthConditions[];
+    growthConditions!: GrowthConditions[];
 
     @ManyToOne(() => Room, (room) => room.herbs)
-    room: Room;
+    room!: Room;
 
     @ManyToMany(() => Notification, (notification) => notification.herbs)
-    notifications: Notification[];
+    notifications!: Notification[];
 }
