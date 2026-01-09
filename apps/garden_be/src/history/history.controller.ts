@@ -44,7 +44,7 @@ export class HistoryController {
     }
 
     @Delete(':id')
-    async remove(@Param('id') id: string): Promise<void> {
-        await this.historyService.remove(id);
+    async delete(@Param('id') id: string): Promise<void> {
+        await this.historyService.delete(id);
     }
 }

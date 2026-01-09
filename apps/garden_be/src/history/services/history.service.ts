@@ -1,4 +1,3 @@
-// src/history/history.service.ts
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -50,8 +49,8 @@ export class HistoryService {
         return this.historyRepository.save(history);
     }
 
-    async remove(id: string): Promise<void> {
+    async delete(id: string): Promise<void> {
         const history = await this.findOne(id);
-        await this.historyRepository.remove(history);
+        await this.historyRepository.delete(history);
     }
 }

@@ -1,34 +1,67 @@
-import { Column, Entity, JoinColumn, ManyToMany, OneToMany } from 'typeorm';
-import { BaseEntity } from '../../infrastructure/database/base.entity';
-import { Herb } from '../../herb/entity/herb.entity';
-import { User } from '../../user/entity/user.entity';
+import { ApiProperty } from '@nestjs/swagger';
+import {
+    IsArray,
+    IsNumber,
+    IsOptional,
+    IsString,
+    IsUUID,
+} from 'class-validator';
 
-@Entity({ name: 'room' })
-export class Room extends BaseEntity {
-    @Column({ type: 'varchar' })
-    name!: string;
+export class RoomRequestDto {
+    @ApiProperty({
+        description: 'Name of the room',
+        example: 'Living room',
+    })
+    @IsString()
+    name: string;
 
-    @Column({ type: 'text', nullable: true })
+    @ApiProperty({
+        description: 'Optional room description',
+        example: 'Room with herbs near the window',
+        required: false,
+    })
+    @IsOptional()
+    @IsString()
     description?: string;
 
-    @Column({ type: 'float' })
-    temperature!: number;
-
-    @Column({ type: 'float' })
-    humidity!: number;
-
-    @Column({ type: 'float' })
-    waterLevel!: number;
-
-    @OneToMany(() => Herb, (herb) => herb.room, {
-        onDelete: 'CASCADE',
+    @ApiProperty({
+        description: 'Current temperature in the room (°C)',
+        example: 22.5,
     })
-    @JoinColumn({ name: 'herb_ids' })
-    herbs!: Herb[];
+    @IsNumber()
+    temperature: number;
 
-    @ManyToMany(() => User, (user) => user.rooms, {
-        onDelete: 'CASCADE',
+    @ApiProperty({
+        description: 'Current humidity in the room (%)',
+        example: 55,
     })
-    @JoinColumn({ name: 'user' })
-    user!: User[];
+    @IsNumber()
+    humidity: number;
+
+    @ApiProperty({
+        description: 'Water level in the room tank (%)',
+        example: 80,
+    })
+    @IsNumber()
+    waterLevel: number;
+
+    @ApiProperty({
+        description: 'IDs of herbs in the room',
+        example: ['uuid-herb-1', 'uuid-herb-2'],
+        required: false,
+    })
+    @IsOptional()
+    @IsArray()
+    @IsUUID('all', { each: true })
+    herbIds?: string[];
+
+    @ApiProperty({
+        description: 'IDs of users assigned to the room',
+        example: ['uuid-user-1'],
+        required: false,
+    })
+    @IsOptional()
+    @IsArray()
+    @IsUUID('all', { each: true })
+    userIds?: string[];
 }

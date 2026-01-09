@@ -30,5 +30,5 @@ export class Room extends BaseEntity {
         onDelete: 'CASCADE',
     })
     @JoinColumn({ name: 'user' })
-    user!: User[];
+    users!: User[];
 }

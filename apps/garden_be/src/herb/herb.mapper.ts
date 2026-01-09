@@ -12,7 +12,7 @@ export const toHerbResponseDto = (herb: Herb): HerbResponseDto => ({
     roomId: herb.room?.id,
     notificationIds: herb.notifications?.map((n) => n.id) ?? [],
     historyIds: herb.histories?.map((h) => h.id) ?? [],
-    growthConditionIds: herb.growthConditions?.map((g) => g.id) ?? [],
+    growConditionId: herb.growConditions.id,
     createdAt: herb.createdAt,
     updatedAt: herb.updatedAt,
 });

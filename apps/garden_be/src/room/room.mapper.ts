@@ -9,7 +9,7 @@ export const toRoomResponseDto = (room: Room): RoomResponseDto => ({
     humidity: room.humidity,
     waterLevel: room.waterLevel,
     herbIds: room.herbs?.map((h) => h.id) ?? [],
-    userIds: room.user?.map((u) => u.id) ?? [],
+    userIds: room.users?.map((u) => u.id) ?? [],
     createdAt: room.createdAt,
     updatedAt: room.updatedAt,
 });

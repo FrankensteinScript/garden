@@ -14,7 +14,7 @@ export class User extends BaseEntity {
     @Column({ type: 'varchar' })
     password!: string;
 
-    @ManyToMany(() => Room, (room) => room.user)
+    @ManyToMany(() => Room, (room) => room.users)
     rooms!: Room[];
 
     @ManyToMany(() => Notification, (notification) => notification.users)

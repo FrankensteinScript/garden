@@ -6,7 +6,9 @@ import {
     IsString,
     IsUUID,
     IsArray,
+    IsObject,
 } from 'class-validator';
+import { GrowConditions } from '../../growConditions/entity/GrowConditions.entity';
 
 export class HerbRequestDto {
     @ApiProperty({ description: 'Name of the herb', example: 'Basil' })
@@ -43,6 +45,15 @@ export class HerbRequestDto {
     @IsOptional()
     @IsDate()
     lastWatering?: Date;
+
+    @ApiProperty({
+        description: 'Grow Conditions of herb',
+        example: 'something',
+        required: false,
+    })
+    @IsOptional()
+    @IsObject()
+    growConditions?: GrowConditions;
 
     @ApiProperty({
         description: 'ID of the room the herb belongs to',

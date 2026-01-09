@@ -6,7 +6,7 @@ import {
     IsOptional,
     IsString,
 } from 'class-validator';
-import { NotificationType, type NotificationTypeEnum } from '../../utils/const';
+import { NotificationType, NotificationTypeEnum } from '../../utils/const';
 
 export class NotificationRequestDto {
     @ApiProperty({

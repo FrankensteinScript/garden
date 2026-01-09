@@ -1,10 +1,10 @@
-import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
+import { Column, Entity, JoinColumn, OneToOne } from 'typeorm';
 import { BaseEntity } from '../../infrastructure/database/base.entity';
-import { SoilType, type SoilTypeEnum } from '../../utils/const';
+import { SoilType, SoilTypeEnum } from '../../utils/const';
 import { Herb } from '../../herb/entity/herb.entity';
 
-@Entity({ name: 'growthConditions' })
-export class GrowthConditions extends BaseEntity {
+@Entity({ name: 'growConditions' })
+export class GrowConditions extends BaseEntity {
     @Column({ type: 'float' })
     minTemperature!: number;
 
@@ -24,7 +24,7 @@ export class GrowthConditions extends BaseEntity {
     })
     soilType!: SoilTypeEnum;
 
-    @ManyToOne(() => Herb, (herb) => herb.growthConditions, {
+    @OneToOne(() => Herb, (herb) => herb.growConditions, {
         onDelete: 'CASCADE',
     })
     @JoinColumn({ name: 'herb_id' })
