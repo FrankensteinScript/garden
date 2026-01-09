@@ -61,7 +61,6 @@
         "next": "^15.5.4",
         "react": "19.0.0",
         "react-dom": "19.0.0",
-        "reflect-metadata": "^0.1.13",
         "rxjs": "^7.8.0",
         "typescript-eslint": "^8.37.0"
     }
