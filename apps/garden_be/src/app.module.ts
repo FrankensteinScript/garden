@@ -4,6 +4,7 @@ import { PlantsModule } from './plants/plants.module';
 import { GrowConditionsModule } from './growConditions/growConditions.module';
 import { HerbModule } from './herb/herb.module';
 import { HistoryModule } from './history/history.module';
+import { NotificationsModule } from './notification/notifications.module';
 
 @Module({
     imports: [
@@ -21,6 +22,7 @@ import { HistoryModule } from './history/history.module';
         GrowConditionsModule,
         HerbModule,
         HistoryModule,
+        NotificationsModule,
     ],
 })
 export class AppModule {}
