@@ -7,10 +7,10 @@ import {
     Post,
     Put,
 } from '@nestjs/common';
-import type { UserService } from './services/user.service';
-import type { UserResponseDto } from './dtos/userResponse.dto';
+import { UserService } from './services/user.service';
+import { UserResponseDto } from './dtos/userResponse.dto';
 import { toUserResponseDto } from './user.mapper';
-import type { UserRequestDto } from './dtos/userRequest.dto';
+import { UserRequestDto } from './dtos/userRequest.dto';
 
 @Controller('user')
 export class UserController {

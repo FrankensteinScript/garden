@@ -7,8 +7,8 @@ import {
     Post,
     Put,
 } from '@nestjs/common';
-import type { HerbService } from './services/herb.service';
-import type { HerbResponseDto } from './dtos/herbResponse.dto';
+import { HerbService } from './services/herb.service';
+import { HerbResponseDto } from './dtos/herbResponse.dto';
 import { toHerbResponseDto } from './herb.mapper';
 import { HerbRequestDto } from './dtos/herbRequest.dto';
 

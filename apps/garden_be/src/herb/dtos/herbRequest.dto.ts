@@ -8,7 +8,7 @@ import {
     IsArray,
     IsObject,
 } from 'class-validator';
-import { GrowConditions } from '../../growConditions/entity/GrowConditions.entity';
+import { GrowConditions } from '../../growConditions/entity/growConditions.entity';
 
 export class HerbRequestDto {
     @ApiProperty({ description: 'Name of the herb', example: 'Basil' })
