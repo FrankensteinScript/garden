@@ -14,6 +14,44 @@ export class HerbService {
         private readonly roomRepository: Repository<Room>
     ) {}
 
+    async onModuleInit(): Promise<void> {
+        await this.seedPlants();
+    }
+
+    async seedPlants(): Promise<void> {
+        const count = await this.herbRepository.count();
+        if (count > 0) return;
+
+        const herbs: Partial<Herb>[] = [
+            {
+                name: 'Bazalka',
+                description: 'Aromatická bylina vhodná do kuchyně.',
+                temperature: 22,
+                humidity: 60,
+                soilMoisture: 40,
+                lastWatering: new Date(),
+            },
+            {
+                name: 'Máta',
+                description: 'Osvěžující bylina, nenáročná na pěstování.',
+                temperature: 20,
+                humidity: 65,
+                soilMoisture: 50,
+                lastWatering: new Date(),
+            },
+            {
+                name: 'Rozmarýn',
+                description: 'Středomořská bylina, má ráda sušší půdu.',
+                temperature: 24,
+                humidity: 45,
+                soilMoisture: 30,
+                lastWatering: new Date(),
+            },
+        ];
+
+        await this.herbRepository.save(herbs);
+    }
+
     async create(dto: HerbRequestDto): Promise<Herb> {
         const room = await this.roomRepository.findOneBy({ id: dto.roomId });
         if (!room) throw new NotFoundException('Room not found');

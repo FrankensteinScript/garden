@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { PlantsModule } from './plants/plants.module';
 import { GrowConditionsModule } from './growConditions/growConditions.module';
 import { HerbModule } from './herb/herb.module';
 import { HistoryModule } from './history/history.module';
 import { NotificationsModule } from './notification/notifications.module';
 import { RoomModule } from './room/room.module';
+import { UserModule } from './user/user.module';
 
 @Module({
     imports: [
@@ -19,12 +19,12 @@ import { RoomModule } from './room/room.module';
             autoLoadEntities: true,
             synchronize: false,
         }),
-        PlantsModule,
         GrowConditionsModule,
         HerbModule,
         HistoryModule,
         NotificationsModule,
         RoomModule,
+        UserModule,
     ],
 })
 export class AppModule {}
