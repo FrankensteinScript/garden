@@ -14,9 +14,10 @@ export class HerbService {
         private readonly roomRepository: Repository<Room>
     ) {}
 
-    async onModuleInit(): Promise<void> {
-        await this.seedPlants();
-    }
+    //TODO: FIX SEED
+    // async onModuleInit(): Promise<void> {
+    //     await this.seedPlants();
+    // }
 
     async seedPlants(): Promise<void> {
         const count = await this.herbRepository.count();
