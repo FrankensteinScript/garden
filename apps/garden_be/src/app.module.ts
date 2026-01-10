@@ -5,6 +5,7 @@ import { GrowConditionsModule } from './growConditions/growConditions.module';
 import { HerbModule } from './herb/herb.module';
 import { HistoryModule } from './history/history.module';
 import { NotificationsModule } from './notification/notifications.module';
+import { RoomModule } from './room/room.module';
 
 @Module({
     imports: [
@@ -23,6 +24,7 @@ import { NotificationsModule } from './notification/notifications.module';
         HerbModule,
         HistoryModule,
         NotificationsModule,
+        RoomModule,
     ],
 })
 export class AppModule {}
