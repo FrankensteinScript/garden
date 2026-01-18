@@ -1,16 +1,6 @@
-export const SoilType = {
-    SANDY: 'sandy',
-    LOAMY: 'loamy',
-    CLAY: 'clay',
-    OTHER: 'other',
-} as const;
+export const SOIL_TYPES = ['sandy', 'loamy', 'clay', 'other'] as const;
+export type SoilType = typeof SOIL_TYPES[number];
 
-export type SoilTypeEnum = typeof SoilType[keyof typeof SoilType];
+export const NOTIFICATION_TYPES = ['warning', 'emergency'] as const;
 
-export const NotificationType = {
-    WARNING: 'warning',
-    EMERGENCY: 'emergency',
-} as const;
-
-export type NotificationTypeEnum =
-    typeof NotificationType[keyof typeof NotificationType];
+export type NotificationType = typeof NOTIFICATION_TYPES[number];

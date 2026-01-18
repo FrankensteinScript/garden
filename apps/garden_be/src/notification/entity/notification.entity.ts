@@ -1,13 +1,13 @@
 import { Column, Entity, JoinColumn, ManyToMany } from 'typeorm';
 import { BaseEntity } from '../../infrastructure/database/base.entity';
-import { NotificationType, type NotificationTypeEnum } from '../../utils/const';
+import { NOTIFICATION_TYPES, NotificationType } from '../../utils/const';
 import { Herb } from '../../herb/entity/herb.entity';
 import { User } from '../../user/entity/user.entity';
 
 @Entity({ name: 'notifications' })
 export class Notification extends BaseEntity {
-    @Column({ type: 'enum', enum: Object.values(NotificationType) })
-    notificationType!: NotificationTypeEnum;
+    @Column({ type: 'enum', enum: Object.values(NOTIFICATION_TYPES) })
+    notificationType!: NotificationType;
 
     @Column({ type: 'text' })
     message!: string;
