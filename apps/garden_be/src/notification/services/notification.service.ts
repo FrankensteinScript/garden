@@ -6,9 +6,10 @@ import { Notification } from '../entity/notification.entity';
 import { Herb } from '../../herb/entity/herb.entity';
 import { User } from '../../user/entity/user.entity';
 import { NotificationRequestDto } from '../dtos/notificationRequest.dto';
+import { BaseCrudService } from '../../BaseCrudService';
 
 @Injectable()
-export class NotificationService {
+export class NotificationService extends BaseCrudService<Notification> {
     constructor(
         @InjectRepository(Notification)
         private readonly notificationRepository: Repository<Notification>,
@@ -18,7 +19,12 @@ export class NotificationService {
 
         @InjectRepository(User)
         private readonly userRepository: Repository<User>
-    ) {}
+    ) {
+        super(notificationRepository, 'Notification', {
+            herbs: true,
+            users: true,
+        });
+    }
 
     async create(dto: NotificationRequestDto): Promise<Notification> {
         const herbs = dto.herbIds?.length
@@ -52,36 +58,10 @@ export class NotificationService {
         return this.notificationRepository.save(notification);
     }
 
-    async findAll(): Promise<Notification[]> {
-        return this.notificationRepository.find({
-            relations: ['herbs', 'users'],
-        });
-    }
-
-    async findOne(id: string): Promise<Notification> {
-        const notification = await this.notificationRepository.findOne({
-            where: { id },
-            relations: ['herbs', 'users'],
-        });
-
-        if (!notification) {
-            throw new NotFoundException('Notification not found');
-        }
-
-        return notification;
-    }
-
     async markAsRead(id: string): Promise<Notification> {
-        const notification = await this.findOne(id);
+        const notification = await this.findOne({ id });
 
         notification.isRead = true;
         return this.notificationRepository.save(notification);
-    }
-
-    async delete(id: string): Promise<void> {
-        const result = await this.notificationRepository.delete(id);
-
-        if (!result.affected)
-            throw new NotFoundException('Notification not found');
     }
 }

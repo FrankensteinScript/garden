@@ -1,26 +1,35 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Herb } from '../entity/herb.entity';
 import { Repository } from 'typeorm';
+import { Herb } from '../entity/herb.entity';
 import { Room } from '../../room/entity/room.entity';
 import { HerbRequestDto } from '../dtos/herbRequest.dto';
+import { BaseCrudService } from '../../BaseCrudService';
 
 @Injectable()
-export class HerbService {
+export class HerbService extends BaseCrudService<Herb> {
     constructor(
         @InjectRepository(Herb)
-        private readonly herbRepository: Repository<Herb>,
+        herbRepository: Repository<Herb>,
+
         @InjectRepository(Room)
         private readonly roomRepository: Repository<Room>
-    ) {}
+    ) {
+        super(herbRepository, 'Herb', { room: true });
+    }
 
-    //TODO: FIX SEED
-    // async onModuleInit(): Promise<void> {
-    //     await this.seedPlants();
-    // }
+    async create(dto: HerbRequestDto): Promise<Herb> {
+        const room = await this.roomRepository.findOne({
+            where: { id: dto.roomId },
+        });
+        if (!room) throw new NotFoundException('Room not found');
+
+        const herb = this.repository.create({ ...dto, room });
+        return this.repository.save(herb);
+    }
 
     async seedPlants(): Promise<void> {
-        const count = await this.herbRepository.count();
+        const count = await this.repository.count();
         if (count > 0) return;
 
         const herbs: Partial<Herb>[] = [
@@ -50,41 +59,10 @@ export class HerbService {
             },
         ];
 
-        await this.herbRepository.save(herbs);
+        await this.repository.save(herbs);
     }
 
-    async create(dto: HerbRequestDto): Promise<Herb> {
-        const room = await this.roomRepository.findOneBy({ id: dto.roomId });
-        if (!room) throw new NotFoundException('Room not found');
-
-        const herb = this.herbRepository.create({ ...dto, room });
-        return this.herbRepository.save(herb);
-    }
-
-    async findAll(): Promise<Herb[]> {
-        return this.herbRepository.find({ relations: ['room'] });
-    }
-
-    async findOne(id: string): Promise<Herb> {
-        const herb = await this.herbRepository.findOne({
-            where: { id },
-            relations: ['room'],
-        });
-
-        if (!herb) throw new NotFoundException('Herb not found');
-        return herb;
-    }
-
-    async update(id: string, dto: HerbRequestDto): Promise<Herb> {
-        const herb = await this.findOne(id);
-
-        if (!herb) throw new NotFoundException('Herb not found');
-        Object.assign(herb, dto);
-        return this.herbRepository.save(herb);
-    }
-
-    async delete(id: string): Promise<void> {
-        const herb = await this.findOne(id);
-        await this.herbRepository.delete(herb);
+    async findById(id: string): Promise<Herb> {
+        return this.findOne({ id });
     }
 }

@@ -4,16 +4,19 @@ import { Repository } from 'typeorm';
 import { History } from '../entity/history.entity';
 import { Herb } from '../../herb/entity/herb.entity';
 import { HistoryRequestDto } from '../dtos/historyRequest.dto';
+import { BaseCrudService } from '../../BaseCrudService';
 
 @Injectable()
-export class HistoryService {
+export class HistoryService extends BaseCrudService<History> {
     constructor(
         @InjectRepository(History)
         private readonly historyRepository: Repository<History>,
 
         @InjectRepository(Herb)
         private readonly herbRepository: Repository<Herb>
-    ) {}
+    ) {
+        super(historyRepository, 'History', { herb: true });
+    }
 
     async create(dto: HistoryRequestDto): Promise<History> {
         const herb = await this.herbRepository.findOneBy({ id: dto.herbId });
@@ -21,36 +24,5 @@ export class HistoryService {
 
         const history = this.historyRepository.create({ ...dto, herb });
         return this.historyRepository.save(history);
-    }
-
-    async findAll(): Promise<History[]> {
-        return this.historyRepository.find({ relations: ['herb'] });
-    }
-
-    async findOne(id: string): Promise<History> {
-        const history = await this.historyRepository.findOne({
-            where: { id },
-            relations: ['herb'],
-        });
-        if (!history) throw new NotFoundException('History not found');
-        return history;
-    }
-
-    async update(id: string, dto: HistoryRequestDto): Promise<History> {
-        const history = await this.findOne(id);
-        if (dto.herbId) {
-            const herb = await this.herbRepository.findOneBy({
-                id: dto.herbId,
-            });
-            if (!herb) throw new NotFoundException('Herb not found');
-            history.herb = herb;
-        }
-        Object.assign(history, dto);
-        return this.historyRepository.save(history);
-    }
-
-    async delete(id: string): Promise<void> {
-        const history = await this.findOne(id);
-        await this.historyRepository.delete(history);
     }
 }
