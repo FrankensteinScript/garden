@@ -19,7 +19,7 @@ export class GrowConditions extends BaseEntity {
 
     @Column({
         type: 'enum',
-        enum: Object.values(SOIL_TYPES),
+        enum: SOIL_TYPES,
         default: SOIL_TYPES[0],
     })
     soilType!: SoilType;

@@ -6,7 +6,7 @@ import { User } from '../../user/entity/user.entity';
 
 @Entity({ name: 'notifications' })
 export class Notification extends BaseEntity {
-    @Column({ type: 'enum', enum: Object.values(NOTIFICATION_TYPES) })
+    @Column({ type: 'enum', enum: NOTIFICATION_TYPES })
     notificationType!: NotificationType;
 
     @Column({ type: 'text' })
