@@ -2,6 +2,11 @@
     "name": "@garden/garden_be",
     "version": "0.0.1",
     "private": true,
+    "scripts": {
+        "migration:generate": "bash -c 'pnpm dlx typeorm-ts-node-commonjs migration:generate src/infrastructure/database/migrations/$1 -d src/infrastructure/database/data-source.ts -o' --",
+        "migration:run": "pnpm dlx typeorm-ts-node-commonjs migration:run -d src/infrastructure/database/data-source.ts",
+        "migration:revert": "pnpm dlx typeorm-ts-node-commonjs migration:revert -d src/infrastructure/database/data-source.ts"
+    },
     "nx": {
         "targets": {
             "build": {
@@ -31,12 +36,17 @@
         }
     },
     "dependencies": {
-        "pg": "^8.16.3",
-        "reflect-metadata": "^0.2.2",
-        "typeorm": "^0.3.28"
+        "@nestjs/config": "^4.0.2",
+        "@nestjs/swagger": "11.2.4",
+        "class-validator": "^0.14.3",
+        "pg": "8.16.3",
+        "reflect-metadata": "0.2.2",
+        "typeorm": "0.3.28"
     },
     "devDependencies": {
-        "typescript": "^5.7.3",
-        "@nx/js": "^21.3.11"
+        "@nx/js": "21.3.11",
+        "@types/node": "18.16.9",
+        "ts-node": "10.9.2",
+        "typescript": "5.7.3"
     }
 }
