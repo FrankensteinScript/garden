@@ -14,8 +14,12 @@ export class UserService extends BaseCrudService<User> {
         super(userRepository, 'User');
     }
 
-    async create(dto: UserRequestDto): Promise<User> {
+    async create(dto: Partial<UserRequestDto>): Promise<User> {
         const user = this.userRepository.create(dto);
         return this.userRepository.save(user);
+    }
+
+    async findByEmail(email: string): Promise<User | null> {
+        return this.userRepository.findOne({ where: { email } });
     }
 }

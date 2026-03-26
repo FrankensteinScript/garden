@@ -12,7 +12,7 @@ import { RoomResponseDto } from './dtos/roomResponse.dto';
 import { toRoomResponseDto } from './room.mapper';
 import { RoomRequestDto } from './dtos/roomRequest.dto';
 
-@Controller()
+@Controller('room')
 export class RoomController {
     constructor(private readonly roomService: RoomService) {}
 

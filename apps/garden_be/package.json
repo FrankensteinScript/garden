@@ -37,15 +37,24 @@
     },
     "dependencies": {
         "@nestjs/config": "^4.0.2",
+        "@nestjs/jwt": "^11.0.2",
+        "@nestjs/passport": "^11.0.5",
         "@nestjs/swagger": "11.2.4",
+        "bcryptjs": "^3.0.3",
         "class-validator": "^0.14.3",
+        "nodemailer": "^8.0.4",
+        "passport": "^0.7.0",
+        "passport-jwt": "^4.0.1",
         "pg": "8.16.3",
         "reflect-metadata": "0.2.2",
         "typeorm": "0.3.28"
     },
     "devDependencies": {
         "@nx/js": "21.3.11",
+        "@types/bcryptjs": "^3.0.0",
         "@types/node": "18.16.9",
+        "@types/nodemailer": "^7.0.11",
+        "@types/passport-jwt": "^4.0.1",
         "ts-node": "10.9.2",
         "typescript": "5.7.3"
     }
