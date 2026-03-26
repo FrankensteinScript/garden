@@ -7,6 +7,7 @@ import { Herb } from '../../herb/entity/herb.entity';
 import { User } from '../../user/entity/user.entity';
 import { NotificationRequestDto } from '../dtos/notificationRequest.dto';
 import { BaseCrudService } from '../../BaseCrudService';
+import { EmailService } from '../../email/email.service';
 
 @Injectable()
 export class NotificationService extends BaseCrudService<Notification> {
@@ -18,7 +19,9 @@ export class NotificationService extends BaseCrudService<Notification> {
         private readonly herbRepository: Repository<Herb>,
 
         @InjectRepository(User)
-        private readonly userRepository: Repository<User>
+        private readonly userRepository: Repository<User>,
+
+        private readonly emailService: EmailService
     ) {
         super(notificationRepository, 'Notification', {
             herbs: true,
@@ -55,7 +58,18 @@ export class NotificationService extends BaseCrudService<Notification> {
             users,
         });
 
-        return this.notificationRepository.save(notification);
+        const saved = await this.notificationRepository.save(notification);
+
+        const herbNames = herbs.map((h) => h.name);
+        for (const user of users) {
+            this.emailService.sendNotificationEmail(user.email, {
+                type: dto.notificationType,
+                message: dto.message,
+                herbNames,
+            });
+        }
+
+        return saved;
     }
 
     async markAsRead(id: string): Promise<Notification> {

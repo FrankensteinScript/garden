@@ -12,7 +12,7 @@ import { RoomResponseDto } from './dtos/roomResponse.dto';
 import { toRoomResponseDto } from './room.mapper';
 import { RoomRequestDto } from './dtos/roomRequest.dto';
 
-@Controller()
+@Controller('room')
 export class RoomController {
     constructor(private readonly roomService: RoomService) {}
 
@@ -23,8 +23,8 @@ export class RoomController {
     }
 
     @Get(':id')
-    async findOne(@Param() id: string): Promise<RoomResponseDto> {
-        const room = await this.roomService.findOne(id);
+    async findOne(@Param('id') id: string): Promise<RoomResponseDto> {
+        const room = await this.roomService.findOne({ id } as any);
         return toRoomResponseDto(room);
     }
 
@@ -36,15 +36,15 @@ export class RoomController {
 
     @Put(':id')
     async update(
-        @Param() id: string,
+        @Param('id') id: string,
         @Body() dto: RoomResponseDto
     ): Promise<RoomResponseDto> {
-        const room = await this.roomService.update(id, dto);
+        const room = await this.roomService.update({ id } as any, dto);
         return toRoomResponseDto(room);
     }
 
     @Delete(':id')
-    async delete(@Param() id: string): Promise<void> {
-        await this.roomService.delete(id);
+    async delete(@Param('id') id: string): Promise<void> {
+        await this.roomService.delete({ id } as any);
     }
 }

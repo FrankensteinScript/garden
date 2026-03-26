@@ -5,9 +5,10 @@ import { NotificationController } from './notification.controller';
 import { NotificationService } from './services/notification.service';
 import { Herb } from '../herb/entity/herb.entity';
 import { User } from '../user/entity/user.entity';
+import { EmailModule } from '../email/email.module';
 
 @Module({
-    imports: [TypeOrmModule.forFeature([Notification, Herb, User])],
+    imports: [TypeOrmModule.forFeature([Notification, Herb, User]), EmailModule],
     controllers: [NotificationController],
     providers: [NotificationService],
     exports: [NotificationService],

@@ -35,8 +35,8 @@ export class GrowConditionsRequestDto {
         description: 'Soil type',
         example: '2026-01-09T12:00:00Z',
     })
-    @IsEnum(SoilType)
-    soilType: SoilTypeEnum;
+    @IsEnum(SoilTypeEnum)
+    soilType: SoilType;
 
     @ApiProperty({
         description: 'ID of the herb this history belongs to',

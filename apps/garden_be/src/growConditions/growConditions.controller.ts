@@ -28,7 +28,7 @@ export class GrowConditionsController {
 
     @Get(':id')
     async findOne(@Param('id') id: string): Promise<GrowConditionsResponseDto> {
-        const growConditions = await this.growConditionsService.findOne(id);
+        const growConditions = await this.growConditionsService.findOne({ id } as any);
         return toGrowConditionsResponseDto(growConditions);
     }
 
@@ -37,12 +37,12 @@ export class GrowConditionsController {
         @Param('id') id: string,
         @Body() dto: GrowConditionsRequestDto
     ): Promise<GrowConditionsResponseDto> {
-        const growConditions = await this.growConditionsService.update(id, dto);
+        const growConditions = await this.growConditionsService.update({ id } as any, dto);
         return toGrowConditionsResponseDto(growConditions);
     }
 
     @Delete(':id')
     async delete(@Param('id') id: string): Promise<void> {
-        await this.growConditionsService.delete(id);
+        await this.growConditionsService.delete({ id } as any);
     }
 }

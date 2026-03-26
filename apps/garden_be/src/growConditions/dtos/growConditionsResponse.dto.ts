@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { SoilTypeEnum } from '../../utils/const';
+import { SoilType } from '../../utils/const';
 
 export class GrowConditionsResponseDto {
     @ApiProperty({
@@ -31,7 +31,7 @@ export class GrowConditionsResponseDto {
         example: 'LOAMY',
         enum: ['SANDY', 'CLAY', 'LOAMY'],
     })
-    soilType: SoilTypeEnum;
+    soilType: SoilType;
 
     @ApiProperty({
         description: 'ID of the herb this grow condition belongs to',
