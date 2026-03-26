@@ -54,7 +54,7 @@ export function HumidityChart({ data }: HumidityChartProps) {
               unit="%"
             />
             <Tooltip
-              formatter={(val: number) => [`${val}%`, "Vlhkost"]}
+              formatter={(val: any) => [`${val}%`, "Vlhkost"] as any}
               contentStyle={{ borderRadius: 8, fontSize: 13 }}
             />
             <Area

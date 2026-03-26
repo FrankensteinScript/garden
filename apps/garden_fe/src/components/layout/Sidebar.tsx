@@ -9,9 +9,8 @@ import { cn } from '@/lib/utils';
 const navItems = [
   { href: '/dashboard', label: 'Prehled', icon: LayoutDashboard },
   { href: '/dashboard/rooms', label: 'Mistnosti', icon: Home },
-  { href: '/dashboard/plants', label: 'Rostliny', icon: Leaf },
-  { href: '/notifications', label: 'Upozorneni', icon: Bell },
-  { href: '/settings', label: 'Nastaveni', icon: Settings },
+  { href: '/dashboard/notifications', label: 'Upozorneni', icon: Bell },
+  { href: '/dashboard/settings', label: 'Nastaveni', icon: Settings },
 ];
 
 interface SidebarProps {

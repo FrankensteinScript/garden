@@ -3,6 +3,7 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import type { ReactNode } from 'react';
 
+import Cookies from 'js-cookie';
 import { authService } from '@/services/auth.service';
 import type { AuthUser } from '@/types/api';
 
@@ -43,17 +44,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const login = useCallback(async (email: string, password: string) => {
     const response = await authService.login({ email, password });
     localStorage.setItem('garden_token', response.accessToken);
+    Cookies.set('garden_token', response.accessToken, { path: '/' });
     setUser(response.user);
   }, []);
 
   const register = useCallback(async (name: string, email: string, password: string) => {
     const response = await authService.register({ name, email, password });
     localStorage.setItem('garden_token', response.accessToken);
+    Cookies.set('garden_token', response.accessToken, { path: '/' });
     setUser(response.user);
   }, []);
 
   const logout = useCallback(() => {
     localStorage.removeItem('garden_token');
+    Cookies.remove('garden_token', { path: '/' });
     setUser(null);
     window.location.href = '/login';
   }, []);

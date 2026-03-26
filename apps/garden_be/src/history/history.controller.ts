@@ -30,7 +30,7 @@ export class HistoryController {
 
     @Get(':id')
     async findOne(@Param('id') id: string): Promise<HistoryResponseDto> {
-        const history = await this.historyService.findOne(id);
+        const history = await this.historyService.findOne({ id } as any);
         return toHistoryResponseDto(history);
     }
 
@@ -39,12 +39,12 @@ export class HistoryController {
         @Param('id') id: string,
         @Body() dto: HistoryRequestDto
     ): Promise<HistoryResponseDto> {
-        const history = await this.historyService.update(id, dto);
+        const history = await this.historyService.update({ id } as any, dto);
         return toHistoryResponseDto(history);
     }
 
     @Delete(':id')
     async delete(@Param('id') id: string): Promise<void> {
-        await this.historyService.delete(id);
+        await this.historyService.delete({ id } as any);
     }
 }

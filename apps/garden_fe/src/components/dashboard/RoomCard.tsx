@@ -16,7 +16,7 @@ export function RoomCard({ room }: RoomCardProps) {
   return (
     <Card
       className="cursor-pointer transition-shadow hover:shadow-md"
-      onClick={() => router.push(`/room/${room.id}`)}
+      onClick={() => router.push(`/dashboard/room/${room.id}`)}
     >
       <CardHeader className="pb-2">
         <div className="flex items-center justify-between">

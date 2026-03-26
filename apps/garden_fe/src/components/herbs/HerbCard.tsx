@@ -26,7 +26,7 @@ export function HerbCard({ herb }: HerbCardProps) {
   return (
     <Card
       className="cursor-pointer transition-shadow hover:shadow-md"
-      onClick={() => router.push(`/herb/${herb.id}`)}
+      onClick={() => router.push(`/dashboard/herb/${herb.id}`)}
     >
       <CardHeader className="pb-2">
         <div className="flex items-center justify-between">

@@ -23,8 +23,8 @@ export class HerbController {
     }
 
     @Get(':id')
-    async findOne(@Param() id: string): Promise<HerbResponseDto> {
-        const herb = await this.herbService.findOne(id);
+    async findOne(@Param('id') id: string): Promise<HerbResponseDto> {
+        const herb = await this.herbService.findOne({ id } as any);
         return toHerbResponseDto(herb);
     }
 
@@ -36,15 +36,15 @@ export class HerbController {
 
     @Put(':id')
     async update(
-        @Param(':id') id: string,
+        @Param('id') id: string,
         @Body() dto: HerbRequestDto
     ): Promise<HerbResponseDto> {
-        const herb = await this.herbService.update(id, dto);
+        const herb = await this.herbService.update({ id } as any, dto);
         return toHerbResponseDto(herb);
     }
 
     @Delete(':id')
-    async delete(@Param(':id') id: string): Promise<void> {
-        await this.herbService.delete(id);
+    async delete(@Param('id') id: string): Promise<void> {
+        await this.herbService.delete({ id } as any);
     }
 }

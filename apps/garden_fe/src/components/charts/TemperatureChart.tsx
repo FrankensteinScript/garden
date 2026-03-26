@@ -54,7 +54,7 @@ export function TemperatureChart({ data }: TemperatureChartProps) {
               unit="°C"
             />
             <Tooltip
-              formatter={(val: number) => [`${val}°C`, "Teplota"]}
+              formatter={(val: any) => [`${val}°C`, "Teplota"] as any}
               contentStyle={{ borderRadius: 8, fontSize: 13 }}
             />
             <Area

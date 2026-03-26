@@ -23,8 +23,8 @@ export class NotificationController {
     }
 
     @Get(':id')
-    async findOne(@Param() id: string): Promise<NotificationResponseDto> {
-        const notification = await this.notificationService.findOne(id);
+    async findOne(@Param('id') id: string): Promise<NotificationResponseDto> {
+        const notification = await this.notificationService.findOne({ id } as any);
         return toNotificationResponseDto(notification);
     }
 
@@ -37,14 +37,14 @@ export class NotificationController {
     }
 
     @Put(':id')
-    async markAsRead(@Param() id: string): Promise<NotificationResponseDto> {
+    async markAsRead(@Param('id') id: string): Promise<NotificationResponseDto> {
         const notification = await this.notificationService.markAsRead(id);
 
         return toNotificationResponseDto(notification);
     }
 
     @Delete(':id')
-    async delete(@Param() id: string): Promise<void> {
-        await this.notificationService.delete(id);
+    async delete(@Param('id') id: string): Promise<void> {
+        await this.notificationService.delete({ id } as any);
     }
 }

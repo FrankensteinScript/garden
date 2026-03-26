@@ -48,7 +48,7 @@ export function WateringHistoryChart({ data }: WateringHistoryChartProps) {
               unit=" ml"
             />
             <Tooltip
-              formatter={(val: number) => [`${val} ml`, "Mnozstvi"]}
+              formatter={(val: any) => [`${val} ml`, "Mnozstvi"] as any}
               contentStyle={{ borderRadius: 8, fontSize: 13 }}
             />
             <Bar

@@ -68,7 +68,7 @@ export function Navbar() {
                 <DropdownMenuLabel>{user?.name ?? 'Uzivatel'}</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem>
-                  <Link href="/settings" className="flex w-full items-center gap-2">
+                  <Link href="/dashboard/settings" className="flex w-full items-center gap-2">
                     <User className="h-4 w-4" />
                     Profil
                   </Link>

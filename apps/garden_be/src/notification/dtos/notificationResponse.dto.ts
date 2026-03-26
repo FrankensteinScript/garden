@@ -14,9 +14,9 @@ export class NotificationResponseDto {
     @ApiProperty({
         description: 'Type of the notification',
         example: 'LOW_SOIL_MOISTURE',
-        enum: Object.values(NotificationType),
+        enum: NotificationTypeEnum,
     })
-    notificationType: NotificationTypeEnum;
+    notificationType: NotificationType;
 
     @ApiProperty({
         description: 'Notification message shown to the user',

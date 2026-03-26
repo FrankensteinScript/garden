@@ -4,7 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { RoomModule } from './room/room.module';
 import { HerbModule } from './herb/herb.module';
 import { UserModule } from './user/user.module';
-import { NotificationsModule } from './notification/notification.module';
+import { NotificationsModule } from './notification/notifications.module';
 import { HistoryModule } from './history/history.module';
 import { GrowConditionsModule } from './growConditions/growConditions.module';
 import { AuthModule } from './auth/auth.module';

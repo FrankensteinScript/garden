@@ -11,11 +11,11 @@ import { NotificationType, NotificationTypeEnum } from '../../utils/const';
 export class NotificationRequestDto {
     @ApiProperty({
         description: 'Type of notification',
-        enum: Object.values(NotificationType),
-        example: NotificationType.WARNING,
+        enum: NotificationTypeEnum,
+        example: NotificationTypeEnum.WARNING,
     })
-    @IsEnum(NotificationType)
-    notificationType: NotificationTypeEnum;
+    @IsEnum(NotificationTypeEnum)
+    notificationType: NotificationType;
 
     @ApiProperty({
         description: 'Notification message content',

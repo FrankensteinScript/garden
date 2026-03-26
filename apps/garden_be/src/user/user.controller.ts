@@ -23,8 +23,8 @@ export class UserController {
     }
 
     @Get(':id')
-    async findOne(@Param() id: string): Promise<UserResponseDto> {
-        const user = await this.userService.findOne(id);
+    async findOne(@Param('id') id: string): Promise<UserResponseDto> {
+        const user = await this.userService.findOne({ id } as any);
         return toUserResponseDto(user);
     }
 
@@ -36,15 +36,15 @@ export class UserController {
 
     @Put(':id')
     async update(
-        @Param() id: string,
+        @Param('id') id: string,
         @Body() dto: UserRequestDto
     ): Promise<UserResponseDto> {
-        const user = await this.userService.update(id, dto);
+        const user = await this.userService.update({ id } as any, dto);
         return toUserResponseDto(user);
     }
 
     @Delete(':id')
-    async delete(@Param() id: string): Promise<void> {
-        await this.userService.delete(id);
+    async delete(@Param('id') id: string): Promise<void> {
+        await this.userService.delete({ id } as any);
     }
 }

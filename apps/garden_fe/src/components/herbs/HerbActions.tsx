@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Droplets, Sun, SunOff } from "lucide-react";
+import { Droplets, Sun, SunMoon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -121,7 +121,7 @@ export function HerbActions({ herbId, onWatered }: HerbActionsProps) {
         {lightOn ? (
           <Sun className="mr-1 h-4 w-4" />
         ) : (
-          <SunOff className="mr-1 h-4 w-4" />
+          <SunMoon className="mr-1 h-4 w-4" />
         )}
         Svetlo {lightOn ? "ZAP" : "VYP"}
       </Button>

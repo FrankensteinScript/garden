@@ -60,7 +60,7 @@ export default function RoomDetailPage() {
   if (!room) {
     return (
       <div className="space-y-4">
-        <Button variant="ghost" onClick={() => router.push("/")}>
+        <Button variant="ghost" onClick={() => router.push("/dashboard")}>
           <ArrowLeft className="mr-1 h-4 w-4" />
           Zpet
         </Button>
@@ -72,7 +72,7 @@ export default function RoomDetailPage() {
   return (
     <div className="space-y-6">
       {/* Back button */}
-      <Button variant="ghost" onClick={() => router.push("/")}>
+      <Button variant="ghost" onClick={() => router.push("/dashboard")}>
         <ArrowLeft className="mr-1 h-4 w-4" />
         Zpet na prehled
       </Button>
