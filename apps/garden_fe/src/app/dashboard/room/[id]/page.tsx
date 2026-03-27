@@ -11,12 +11,17 @@ import {
   Power,
   Pencil,
   Trash2,
+  Sun,
+  SunDim,
+  Flower2,
+  Sprout,
 } from "lucide-react";
 import { roomService } from "@/services/room.service";
 import { herbService } from "@/services/herb.service";
 import { pumpCommandService } from "@/services/pumpCommand.service";
+import { lightCommandService } from "@/services/lightCommand.service";
 import { useSensorHistory } from "@/hooks/useSensorHistory";
-import type { Room, Herb, RoomUpdateRequest } from "@/types/api";
+import type { Room, Herb, RoomUpdateRequest, LightMode } from "@/types/api";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -48,6 +53,7 @@ export default function RoomDetailPage() {
   const [herbs, setHerbs] = useState<Herb[]>([]);
   const [loading, setLoading] = useState(true);
   const [pumpLoading, setPumpLoading] = useState(false);
+  const [lightLoading, setLightLoading] = useState(false);
 
   // Edit state
   const [editOpen, setEditOpen] = useState(false);
@@ -98,6 +104,29 @@ export default function RoomDetailPage() {
       });
     } finally {
       setPumpLoading(false);
+    }
+  }
+
+  async function handleLight(action: 'on' | 'off', mode: LightMode) {
+    try {
+      setLightLoading(true);
+      await lightCommandService.trigger(id, { action, mode });
+      toast({
+        title: action === 'on' ? "Svetlo zapnuto" : "Svetlo vypnuto",
+        description: action === 'on'
+          ? `Rezim: ${mode === 'growth' ? 'Rust (18h)' : 'Kvet (12h)'}`
+          : "Svetlo bylo vypnuto.",
+        variant: "success",
+      });
+      fetchData();
+    } catch {
+      toast({
+        title: "Chyba",
+        description: "Nepodarilo se ovladat svetlo.",
+        variant: "error",
+      });
+    } finally {
+      setLightLoading(false);
     }
   }
 
@@ -389,6 +418,73 @@ export default function RoomDetailPage() {
           >
             30s
           </Button>
+        </CardContent>
+      </Card>
+
+      {/* Light control */}
+      <Card>
+        <CardContent className="p-4 space-y-3">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Sun className="h-5 w-5 text-yellow-500" />
+              <span className="text-sm font-medium">Ovladani osvetleni</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <span
+                className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-medium ${
+                  room.isLightOn
+                    ? "bg-yellow-100 text-yellow-800"
+                    : "bg-gray-100 text-gray-600"
+                }`}
+              >
+                <span
+                  className={`h-2 w-2 rounded-full ${
+                    room.isLightOn ? "bg-yellow-500 animate-pulse" : "bg-gray-400"
+                  }`}
+                />
+                {room.isLightOn ? "Sviti" : "Vypnuto"}
+              </span>
+              {room.isLightOn && (
+                <span className="inline-flex items-center gap-1 rounded-full bg-green-100 px-3 py-1 text-xs font-medium text-green-800">
+                  {room.lightMode === 'growth' ? (
+                    <><Sprout className="h-3 w-3" /> Rust (18h)</>
+                  ) : (
+                    <><Flower2 className="h-3 w-3" /> Kvet (12h)</>
+                  )}
+                </span>
+              )}
+            </div>
+          </div>
+          <div className="flex items-center gap-2">
+            <Button
+              onClick={() => handleLight('on', 'growth')}
+              disabled={lightLoading}
+              size="sm"
+              className="bg-green-600 hover:bg-green-700"
+            >
+              <Sprout className="mr-1 h-4 w-4" />
+              Rust (18h)
+            </Button>
+            <Button
+              onClick={() => handleLight('on', 'bloom')}
+              disabled={lightLoading}
+              size="sm"
+              className="bg-purple-600 hover:bg-purple-700"
+            >
+              <Flower2 className="mr-1 h-4 w-4" />
+              Kvet (12h)
+            </Button>
+            <Button
+              onClick={() => handleLight('off', 'off')}
+              disabled={lightLoading}
+              size="sm"
+              variant="outline"
+              className="text-gray-600"
+            >
+              <SunDim className="mr-1 h-4 w-4" />
+              Vypnout
+            </Button>
+          </div>
         </CardContent>
       </Card>
 

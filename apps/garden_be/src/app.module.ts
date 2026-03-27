@@ -11,6 +11,7 @@ import { AuthModule } from './auth/auth.module';
 import { EmailModule } from './email/email.module';
 import { SensorReadingModule } from './sensorReading/sensorReading.module';
 import { PumpCommandModule } from './pumpCommand/pumpCommand.module';
+import { LightCommandModule } from './lightCommand/lightCommand.module';
 
 @Module({
     imports: [
@@ -40,6 +41,7 @@ import { PumpCommandModule } from './pumpCommand/pumpCommand.module';
         EmailModule,
         SensorReadingModule,
         PumpCommandModule,
+        LightCommandModule,
     ],
 })
 export class AppModule {}

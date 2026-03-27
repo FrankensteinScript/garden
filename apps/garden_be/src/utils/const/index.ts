@@ -21,3 +21,12 @@ export type PumpAction = (typeof PUMP_ACTIONS)[number];
 
 export const PUMP_STATUSES = ['pending', 'acknowledged', 'completed'] as const;
 export type PumpStatus = (typeof PUMP_STATUSES)[number];
+
+export const LIGHT_ACTIONS = ['on', 'off'] as const;
+export type LightAction = (typeof LIGHT_ACTIONS)[number];
+
+export const LIGHT_STATUSES = ['pending', 'acknowledged', 'completed'] as const;
+export type LightStatus = (typeof LIGHT_STATUSES)[number];
+
+export const LIGHT_MODES = ['growth', 'bloom', 'off'] as const;
+export type LightMode = (typeof LIGHT_MODES)[number];
