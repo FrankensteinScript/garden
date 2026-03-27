@@ -12,9 +12,10 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 
 interface TemperatureChartProps {
   data?: { time: string; value: number }[];
+  height?: number;
 }
 
-export function TemperatureChart({ data }: TemperatureChartProps) {
+export function TemperatureChart({ data, height = 200 }: TemperatureChartProps) {
   if (!data || data.length === 0) {
     return (
       <Card>
@@ -22,7 +23,7 @@ export function TemperatureChart({ data }: TemperatureChartProps) {
           <CardTitle className="text-base">Teplota</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="flex h-[200px] items-center justify-center text-sm text-muted-foreground">
+          <div className="flex items-center justify-center text-sm text-muted-foreground" style={{ height }}>
             Zadna data ze senzoru
           </div>
         </CardContent>
@@ -36,7 +37,7 @@ export function TemperatureChart({ data }: TemperatureChartProps) {
         <CardTitle className="text-base">Teplota</CardTitle>
       </CardHeader>
       <CardContent>
-        <ResponsiveContainer width="100%" height={200}>
+        <ResponsiveContainer width="100%" height={height}>
           <AreaChart data={data}>
             <defs>
               <linearGradient id="tempGradient" x1="0" y1="0" x2="0" y2="1">
