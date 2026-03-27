@@ -9,15 +9,27 @@ import {
   GlassWater,
   Droplet,
   Power,
+  Pencil,
+  Trash2,
 } from "lucide-react";
 import { roomService } from "@/services/room.service";
 import { herbService } from "@/services/herb.service";
 import { pumpCommandService } from "@/services/pumpCommand.service";
 import { useSensorHistory } from "@/hooks/useSensorHistory";
-import type { Room, Herb } from "@/types/api";
+import type { Room, Herb, RoomUpdateRequest } from "@/types/api";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+} from "@/components/ui/dialog";
 import { HerbCard } from "@/components/herbs/HerbCard";
 import { StatCard } from "@/components/dashboard/StatCard";
 import { LastUpdated } from "@/components/dashboard/LastUpdated";
@@ -36,6 +48,15 @@ export default function RoomDetailPage() {
   const [herbs, setHerbs] = useState<Herb[]>([]);
   const [loading, setLoading] = useState(true);
   const [pumpLoading, setPumpLoading] = useState(false);
+
+  // Edit state
+  const [editOpen, setEditOpen] = useState(false);
+  const [editing, setEditing] = useState(false);
+  const [editForm, setEditForm] = useState<RoomUpdateRequest>({});
+
+  // Delete state
+  const [deleteOpen, setDeleteOpen] = useState(false);
+  const [deleting, setDeleting] = useState(false);
 
   const { data: sensorHistory } = useSensorHistory(id, 24);
 
@@ -79,6 +100,48 @@ export default function RoomDetailPage() {
       setPumpLoading(false);
     }
   }
+
+  const openEdit = () => {
+    if (!room) return;
+    setEditForm({
+      name: room.name,
+      description: room.description,
+      temperature: room.temperature,
+      humidity: room.humidity,
+      waterLevel: room.waterLevel,
+    });
+    setEditOpen(true);
+  };
+
+  const handleEdit = async () => {
+    if (!editForm.name?.trim()) {
+      toast({ title: "Chyba", description: "Zadejte nazev mistnosti.", variant: "error" });
+      return;
+    }
+    try {
+      setEditing(true);
+      await roomService.update(id, editForm);
+      toast({ title: "Mistnost upravena", description: "Zmeny byly ulozeny.", variant: "success" });
+      setEditOpen(false);
+      fetchData();
+    } catch {
+      toast({ title: "Chyba", description: "Nepodarilo se upravit mistnost.", variant: "error" });
+    } finally {
+      setEditing(false);
+    }
+  };
+
+  const handleDelete = async () => {
+    try {
+      setDeleting(true);
+      await roomService.remove(id);
+      toast({ title: "Mistnost smazana", description: "Mistnost byla smazana.", variant: "success" });
+      router.push("/dashboard/rooms");
+    } catch {
+      toast({ title: "Chyba", description: "Nepodarilo se smazat mistnost.", variant: "error" });
+      setDeleting(false);
+    }
+  };
 
   const tempData = sensorHistory.map((r) => ({
     time: new Date(r.createdAt).toLocaleTimeString("cs-CZ", {
@@ -144,8 +207,112 @@ export default function RoomDetailPage() {
             <p className="mt-1 text-muted-foreground">{room.description}</p>
           )}
         </div>
-        <LastUpdated updatedAt={room.updatedAt} />
+        <div className="flex items-center gap-2">
+          <LastUpdated updatedAt={room.updatedAt} />
+          <Button variant="outline" size="sm" onClick={openEdit}>
+            <Pencil className="mr-1 h-4 w-4" />
+            Upravit
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            className="text-red-600 hover:text-red-700 hover:bg-red-50"
+            onClick={() => setDeleteOpen(true)}
+          >
+            <Trash2 className="mr-1 h-4 w-4" />
+            Smazat
+          </Button>
+        </div>
       </div>
+
+      {/* Edit dialog */}
+      <Dialog open={editOpen} onOpenChange={setEditOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Upravit mistnost</DialogTitle>
+            <DialogDescription>Upravte udaje mistnosti</DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            <div className="space-y-2">
+              <Label htmlFor="edit-name">Nazev</Label>
+              <Input
+                id="edit-name"
+                value={editForm.name ?? ""}
+                onChange={(e) => setEditForm((prev) => ({ ...prev, name: e.target.value }))}
+                placeholder="Nazev mistnosti"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="edit-desc">Popis</Label>
+              <textarea
+                id="edit-desc"
+                value={editForm.description ?? ""}
+                onChange={(e) => setEditForm((prev) => ({ ...prev, description: e.target.value }))}
+                placeholder="Popis mistnosti (volitelne)"
+                className="flex min-h-[80px] w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+              />
+            </div>
+            <div className="grid grid-cols-3 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="edit-temp">Teplota (°C)</Label>
+                <Input
+                  id="edit-temp"
+                  type="number"
+                  value={editForm.temperature ?? 22}
+                  onChange={(e) => setEditForm((prev) => ({ ...prev, temperature: Number(e.target.value) }))}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="edit-hum">Vlhkost (%)</Label>
+                <Input
+                  id="edit-hum"
+                  type="number"
+                  value={editForm.humidity ?? 50}
+                  onChange={(e) => setEditForm((prev) => ({ ...prev, humidity: Number(e.target.value) }))}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="edit-water">Hladina vody (%)</Label>
+                <Input
+                  id="edit-water"
+                  type="number"
+                  value={editForm.waterLevel ?? 100}
+                  onChange={(e) => setEditForm((prev) => ({ ...prev, waterLevel: Number(e.target.value) }))}
+                />
+              </div>
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setEditOpen(false)}>Zrusit</Button>
+            <Button onClick={handleEdit} disabled={editing}>
+              {editing ? "Ukladam..." : "Ulozit"}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Delete confirmation dialog */}
+      <Dialog open={deleteOpen} onOpenChange={setDeleteOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Smazat mistnost</DialogTitle>
+            <DialogDescription>
+              Opravdu chcete smazat mistnost &quot;{room.name}&quot;?
+              Tato akce je nevratna a smaze i vsechny bylinky v teto mistnosti.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setDeleteOpen(false)}>Zrusit</Button>
+            <Button
+              className="bg-red-600 hover:bg-red-700"
+              onClick={handleDelete}
+              disabled={deleting}
+            >
+              {deleting ? "Mazam..." : "Smazat"}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
 
       {/* Current readings */}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
