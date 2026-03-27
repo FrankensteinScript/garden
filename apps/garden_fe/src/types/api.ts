@@ -17,6 +17,8 @@ export interface Room {
   temperature: number;
   humidity: number;
   waterLevel: number;
+  lightMode: LightMode;
+  isLightOn: boolean;
   herbIds: string[];
   userIds: string[];
   createdAt: string;
@@ -202,4 +204,24 @@ export interface PumpCommand {
 export interface PumpCommandRequest {
   action: PumpAction;
   durationSeconds?: number;
+}
+
+// ── Light Command ──
+
+export type LightAction = 'on' | 'off';
+export type LightMode = 'growth' | 'bloom' | 'off';
+export type LightStatus = 'pending' | 'acknowledged' | 'completed';
+
+export interface LightCommand {
+  id: string;
+  action: LightAction;
+  mode: LightMode;
+  status: LightStatus;
+  roomId: string;
+  createdAt: string;
+}
+
+export interface LightCommandRequest {
+  action: LightAction;
+  mode: LightMode;
 }

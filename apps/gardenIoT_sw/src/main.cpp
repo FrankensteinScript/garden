@@ -8,6 +8,7 @@
 #define SOIL_MOISTURE_PIN A0
 #define WATER_LEVEL_PIN A1
 #define WATER_PUMP_RELAY_PIN 8
+#define LIGHT_RELAY_PIN 7
 #define LED_PIN 2
 #define ESP_RX 10
 #define ESP_TX 11
@@ -27,6 +28,7 @@ bool sendATCommand(const char* cmd, const char* expected, unsigned long timeout)
 bool connectWiFi();
 bool postSensorData(int temp, int humidity, int soilMoisture, int waterLevel);
 void executePumpCommand(int durationSeconds);
+void executeLightCommand(bool turnOn);
 
 void setup() {
     Serial.begin(9600);
@@ -36,10 +38,12 @@ void setup() {
     pinMode(SOIL_MOISTURE_PIN, INPUT);
     pinMode(WATER_LEVEL_PIN, INPUT);
     pinMode(WATER_PUMP_RELAY_PIN, OUTPUT);
+    pinMode(LIGHT_RELAY_PIN, OUTPUT);
     pinMode(LED_PIN, OUTPUT);
 
     // Relays off at start
     digitalWrite(WATER_PUMP_RELAY_PIN, LOW);
+    digitalWrite(LIGHT_RELAY_PIN, LOW);
     digitalWrite(LED_PIN, LOW);
 
     // Initialize ESP8266
@@ -196,11 +200,11 @@ bool postSensorData(int temp, int humidity, int soilMoisture, int waterLevel) {
     Serial.println(F("Response received"));
 
     // Parse pump command from response
-    char* pumpPtr = strstr(espBuffer, "\"action\":");
-    if (pumpPtr && !strstr(espBuffer, "\"pendingPumpCommand\":null")) {
+    char* pumpPtr = strstr(espBuffer, "\"pendingPumpCommand\":");
+    if (pumpPtr && !strstr(pumpPtr, "null")) {
         // Extract duration
         int duration = 5; // default
-        char* durPtr = strstr(espBuffer, "\"durationSeconds\":");
+        char* durPtr = strstr(pumpPtr, "\"durationSeconds\":");
         if (durPtr) {
             duration = atoi(durPtr + 18);
             if (duration <= 0) duration = 5;
@@ -215,6 +219,18 @@ bool postSensorData(int temp, int humidity, int soilMoisture, int waterLevel) {
         }
     }
 
+    // Parse light command from response
+    char* lightPtr = strstr(espBuffer, "\"pendingLightCommand\":");
+    if (lightPtr && !strstr(lightPtr, "null")) {
+        if (strstr(lightPtr, "\"action\":\"on\"")) {
+            Serial.println(F("Light ON"));
+            executeLightCommand(true);
+        } else if (strstr(lightPtr, "\"action\":\"off\"")) {
+            Serial.println(F("Light OFF"));
+            executeLightCommand(false);
+        }
+    }
+
     return true;
 }
 
@@ -223,4 +239,16 @@ void executePumpCommand(int durationSeconds) {
     delay((unsigned long)durationSeconds * 1000);
     digitalWrite(WATER_PUMP_RELAY_PIN, LOW);
     Serial.println(F("Pump OFF"));
+}
+
+void executeLightCommand(bool turnOn) {
+    if (turnOn) {
+        digitalWrite(LIGHT_RELAY_PIN, HIGH);
+        digitalWrite(LED_PIN, HIGH);
+        Serial.println(F("Light relay ON"));
+    } else {
+        digitalWrite(LIGHT_RELAY_PIN, LOW);
+        digitalWrite(LED_PIN, LOW);
+        Serial.println(F("Light relay OFF"));
+    }
 }

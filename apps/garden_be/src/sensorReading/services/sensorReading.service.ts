@@ -9,6 +9,7 @@ import { Notification } from '../../notification/entity/notification.entity';
 import { User } from '../../user/entity/user.entity';
 import { SensorDataRequestDto } from '../dtos/sensorDataRequest.dto';
 import { PumpCommand } from '../../pumpCommand/entity/pumpCommand.entity';
+import { LightCommand } from '../../lightCommand/entity/lightCommand.entity';
 import { EmailService } from '../../email/email.service';
 
 @Injectable()
@@ -35,12 +36,15 @@ export class SensorReadingService {
         @InjectRepository(PumpCommand)
         private readonly pumpCommandRepository: Repository<PumpCommand>,
 
+        @InjectRepository(LightCommand)
+        private readonly lightCommandRepository: Repository<LightCommand>,
+
         private readonly emailService: EmailService
     ) {}
 
     async ingestSensorData(
         dto: SensorDataRequestDto
-    ): Promise<{ success: boolean; pendingPumpCommand: any }> {
+    ): Promise<{ success: boolean; pendingPumpCommand: any; pendingLightCommand: any }> {
         const room = await this.roomRepository.findOne({
             where: { id: dto.roomId },
             relations: { herbs: true, users: true },
@@ -86,12 +90,30 @@ export class SensorReadingService {
             await this.pumpCommandRepository.save(pendingCmd);
         }
 
+        // Get pending light command (piggybacking)
+        const pendingLightCmd = await this.lightCommandRepository.findOne({
+            where: { room: { id: dto.roomId }, status: 'pending' as any },
+            order: { createdAt: 'ASC' },
+        });
+
+        if (pendingLightCmd) {
+            pendingLightCmd.status = 'acknowledged';
+            pendingLightCmd.acknowledgedAt = new Date();
+            await this.lightCommandRepository.save(pendingLightCmd);
+        }
+
         return {
             success: true,
             pendingPumpCommand: pendingCmd
                 ? {
                       action: pendingCmd.action,
                       durationSeconds: pendingCmd.durationSeconds ?? 5,
+                  }
+                : null,
+            pendingLightCommand: pendingLightCmd
+                ? {
+                      action: pendingLightCmd.action,
+                      mode: pendingLightCmd.mode,
                   }
                 : null,
         };

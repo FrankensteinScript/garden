@@ -9,6 +9,7 @@ import { GrowConditions } from '../growConditions/entity/growConditions.entity';
 import { Notification } from '../notification/entity/notification.entity';
 import { User } from '../user/entity/user.entity';
 import { PumpCommand } from '../pumpCommand/entity/pumpCommand.entity';
+import { LightCommand } from '../lightCommand/entity/lightCommand.entity';
 import { EmailModule } from '../email/email.module';
 
 @Module({
@@ -21,6 +22,7 @@ import { EmailModule } from '../email/email.module';
             Notification,
             User,
             PumpCommand,
+            LightCommand,
         ]),
         EmailModule,
     ],

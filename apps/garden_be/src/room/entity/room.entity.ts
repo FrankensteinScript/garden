@@ -2,6 +2,7 @@ import { Column, Entity, JoinTable, ManyToMany, OneToMany } from 'typeorm';
 import { BaseEntity } from '../../infrastructure/database/base.entity';
 import { Herb } from '../../herb/entity/herb.entity';
 import { User } from '../../user/entity/user.entity';
+import { LIGHT_MODES, LightMode } from '../../utils/const';
 
 @Entity({ name: 'room' })
 export class Room extends BaseEntity {
@@ -19,6 +20,12 @@ export class Room extends BaseEntity {
 
     @Column({ type: 'float' })
     waterLevel!: number;
+
+    @Column({ type: 'enum', enum: LIGHT_MODES, default: 'off' })
+    lightMode!: LightMode;
+
+    @Column({ type: 'boolean', default: false })
+    isLightOn!: boolean;
 
     @OneToMany(() => Herb, (herb) => herb.room, {
         onDelete: 'CASCADE',
