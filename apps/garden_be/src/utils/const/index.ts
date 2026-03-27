@@ -15,3 +15,9 @@ export enum NotificationTypeEnum {
     WARNING = 'warning',
     EMERGENCY = 'emergency',
 }
+
+export const PUMP_ACTIONS = ['on', 'off'] as const;
+export type PumpAction = (typeof PUMP_ACTIONS)[number];
+
+export const PUMP_STATUSES = ['pending', 'acknowledged', 'completed'] as const;
+export type PumpStatus = (typeof PUMP_STATUSES)[number];

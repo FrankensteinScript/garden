@@ -9,6 +9,8 @@ import { HistoryModule } from './history/history.module';
 import { GrowConditionsModule } from './growConditions/growConditions.module';
 import { AuthModule } from './auth/auth.module';
 import { EmailModule } from './email/email.module';
+import { SensorReadingModule } from './sensorReading/sensorReading.module';
+import { PumpCommandModule } from './pumpCommand/pumpCommand.module';
 
 @Module({
     imports: [
@@ -36,6 +38,8 @@ import { EmailModule } from './email/email.module';
         GrowConditionsModule,
         AuthModule,
         EmailModule,
+        SensorReadingModule,
+        PumpCommandModule,
     ],
 })
 export class AppModule {}

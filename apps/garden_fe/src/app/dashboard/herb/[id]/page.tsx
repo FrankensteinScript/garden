@@ -69,6 +69,8 @@ export default function HerbDetailPage() {
 
   useEffect(() => {
     fetchData();
+    const interval = setInterval(fetchData, 30000);
+    return () => clearInterval(interval);
   }, [fetchData]);
 
   if (loading) {
@@ -231,7 +233,7 @@ export default function HerbDetailPage() {
       )}
 
       {/* Actions row */}
-      <HerbActions herbId={id} onWatered={fetchData} />
+      <HerbActions herbId={id} roomId={herb.roomId} onWatered={fetchData} />
 
       {/* Watering history chart */}
       <WateringHistoryChart data={chartData} />

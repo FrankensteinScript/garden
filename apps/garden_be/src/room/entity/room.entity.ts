@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, ManyToMany, OneToMany } from 'typeorm';
+import { Column, Entity, JoinTable, ManyToMany, OneToMany } from 'typeorm';
 import { BaseEntity } from '../../infrastructure/database/base.entity';
 import { Herb } from '../../herb/entity/herb.entity';
 import { User } from '../../user/entity/user.entity';
@@ -23,12 +23,11 @@ export class Room extends BaseEntity {
     @OneToMany(() => Herb, (herb) => herb.room, {
         onDelete: 'CASCADE',
     })
-    @JoinColumn({ name: 'herb_ids' })
     herbs!: Herb[];
 
     @ManyToMany(() => User, (user) => user.rooms, {
         onDelete: 'CASCADE',
     })
-    @JoinColumn({ name: 'user' })
+    @JoinTable()
     users!: User[];
 }

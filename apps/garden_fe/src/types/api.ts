@@ -172,3 +172,34 @@ export interface GrowConditionsUpdateRequest {
   maxHumidity?: number;
   soilType?: SoilType;
 }
+
+// ── Sensor Reading ──
+
+export interface SensorReading {
+  id: string;
+  temperature: number;
+  humidity: number;
+  soilMoisture: number;
+  waterLevel: number;
+  roomId: string;
+  createdAt: string;
+}
+
+// ── Pump Command ──
+
+export type PumpAction = 'on' | 'off';
+export type PumpStatus = 'pending' | 'acknowledged' | 'completed';
+
+export interface PumpCommand {
+  id: string;
+  action: PumpAction;
+  durationSeconds?: number;
+  status: PumpStatus;
+  roomId: string;
+  createdAt: string;
+}
+
+export interface PumpCommandRequest {
+  action: PumpAction;
+  durationSeconds?: number;
+}

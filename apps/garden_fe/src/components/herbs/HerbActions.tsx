@@ -16,13 +16,15 @@ import {
 } from "@/components/ui/dialog";
 import { useToast } from "@/components/ui/toast";
 import { historyService } from "@/services/history.service";
+import { pumpCommandService } from "@/services/pumpCommand.service";
 
 interface HerbActionsProps {
   herbId: string;
+  roomId?: string;
   onWatered: () => void;
 }
 
-export function HerbActions({ herbId, onWatered }: HerbActionsProps) {
+export function HerbActions({ herbId, roomId, onWatered }: HerbActionsProps) {
   const [open, setOpen] = useState(false);
   const [amount, setAmount] = useState("");
   const [notes, setNotes] = useState("");
@@ -41,6 +43,13 @@ export function HerbActions({ herbId, onWatered }: HerbActionsProps) {
         temperature: 0,
         notes: notes || undefined,
       });
+      // Also trigger the pump if roomId is available
+      if (roomId) {
+        await pumpCommandService.trigger(roomId, {
+          action: "on",
+          durationSeconds: 5,
+        });
+      }
       toast({
         title: "Uspesne zalito",
         description: `Bylinka byla zalita ${amount} ml vody.`,

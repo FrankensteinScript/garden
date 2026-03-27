@@ -1,0 +1,13 @@
+// WiFi credentials
+#define WIFI_SSID "your-wifi-ssid"
+#define WIFI_PASS "your-wifi-password"
+
+// Backend server
+#define SERVER_HOST "192.168.1.100"
+#define SERVER_PORT "8080"
+
+// Room UUID from the backend
+#define ROOM_ID "your-room-uuid"
+
+// API key matching IOT_API_KEY on the backend
+#define API_KEY "garden-iot-secret"

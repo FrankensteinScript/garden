@@ -7,8 +7,8 @@
  * @class
  * @implements {MigrationInterface}
  */
-module.exports = class  -Herb1768054475000 {
-    name = ' -Herb1768054475000'
+module.exports = class Herb1768054475000 {
+    name = 'Herb1768054475000'
 
     /**
      * @param {QueryRunner} queryRunner
