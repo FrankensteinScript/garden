@@ -2,13 +2,14 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { LayoutDashboard, Home, Leaf, Bell, Settings } from 'lucide-react';
+import { LayoutDashboard, Home, BarChart3, Bell, Settings } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
 
 const navItems = [
   { href: '/dashboard', label: 'Prehled', icon: LayoutDashboard },
   { href: '/dashboard/rooms', label: 'Mistnosti', icon: Home },
+  { href: '/dashboard/grafy', label: 'Grafy', icon: BarChart3 },
   { href: '/dashboard/notifications', label: 'Upozorneni', icon: Bell },
   { href: '/dashboard/settings', label: 'Nastaveni', icon: Settings },
 ];
