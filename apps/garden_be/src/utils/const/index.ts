@@ -30,3 +30,6 @@ export type LightStatus = (typeof LIGHT_STATUSES)[number];
 
 export const LIGHT_MODES = ['growth', 'bloom', 'off'] as const;
 export type LightMode = (typeof LIGHT_MODES)[number];
+
+export const PLANT_TYPES = ['herb', 'flower', 'vegetable', 'fruit', 'other'] as const;
+export type PlantType = (typeof PLANT_TYPES)[number];

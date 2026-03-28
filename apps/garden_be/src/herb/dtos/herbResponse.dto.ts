@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { PlantType } from '../../utils/const';
 
 export class HerbResponseDto {
     @ApiProperty({
@@ -42,6 +43,21 @@ export class HerbResponseDto {
         example: '2026-01-09T12:00:00Z',
     })
     lastWatering: Date;
+
+    @ApiProperty({
+        description: 'URL of the herb image',
+        example: '/uploads/herbs/1234567890.jpg',
+        required: false,
+        nullable: true,
+    })
+    imageUrl: string | null;
+
+    @ApiProperty({
+        description: 'Type of plant',
+        example: 'herb',
+        enum: ['herb', 'flower', 'vegetable', 'fruit', 'other'],
+    })
+    plantType: PlantType;
 
     @ApiProperty({
         description: 'ID of the room where the herb is located',
