@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Plus, Thermometer, Droplets, Waves, MoreVertical, Pencil, Trash2 } from "lucide-react";
+import { Plus, Thermometer, Droplets, Waves, MoreVertical, Pencil, Trash2, Sun, SunDim } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -359,6 +359,24 @@ export default function RoomsPage() {
                   <div className="flex items-center gap-2 text-muted-foreground">
                     <Waves className="h-4 w-4" />
                     <span>Hladina vody: {room.waterLevel} %</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-muted-foreground">
+                    {room.isLightOn ? (
+                      <Sun className="h-4 w-4 text-yellow-500" />
+                    ) : (
+                      <SunDim className="h-4 w-4" />
+                    )}
+                    <span>
+                      Svetlo:{" "}
+                      {room.isLightOn
+                        ? room.lightMode === "growth"
+                          ? "Rust (18h)"
+                          : "Kvet (12h)"
+                        : "Vypnuto"}
+                    </span>
+                    {room.isLightOn && (
+                      <span className="ml-auto inline-flex h-2 w-2 rounded-full bg-yellow-400 animate-pulse" />
+                    )}
                   </div>
                 </div>
                 {room.herbIds.length > 0 && (

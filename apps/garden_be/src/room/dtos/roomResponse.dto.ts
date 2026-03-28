@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { LightMode } from '../../utils/const';
 
 export class RoomResponseDto {
     @ApiProperty({ example: 'uuid-room' })
@@ -33,6 +34,16 @@ export class RoomResponseDto {
         example: ['uuid-user-1'],
     })
     userIds: string[];
+
+    @ApiProperty({
+        enum: ['growth', 'bloom', 'off'],
+        example: 'off',
+        description: 'Current light mode',
+    })
+    lightMode: LightMode;
+
+    @ApiProperty({ example: false, description: 'Whether light is currently on' })
+    isLightOn: boolean;
 
     @ApiProperty({ example: '2026-01-09T12:00:00Z' })
     createdAt: Date;

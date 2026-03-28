@@ -8,6 +8,8 @@ export const toRoomResponseDto = (room: Room): RoomResponseDto => ({
     temperature: room.temperature,
     humidity: room.humidity,
     waterLevel: room.waterLevel,
+    lightMode: room.lightMode,
+    isLightOn: room.isLightOn,
     herbIds: room.herbs?.map((h) => h.id) ?? [],
     userIds: room.users?.map((u) => u.id) ?? [],
     createdAt: room.createdAt,
