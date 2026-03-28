@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { Plus, Thermometer, Droplets, Waves, MoreVertical, Pencil, Trash2, Sun, SunDim } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -118,6 +119,7 @@ function RoomFormFields({
 }
 
 export default function RoomsPage() {
+  const router = useRouter();
   const { data: rooms, loading, refetch } = useRooms();
   const { toast } = useToast();
 
@@ -319,8 +321,12 @@ export default function RoomsPage() {
       ) : (
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {rooms.map((room) => (
-            <Card key={room.id} className="relative">
-              <div className="absolute right-2 top-2">
+            <Card
+              key={room.id}
+              className="relative cursor-pointer transition-shadow hover:shadow-lg"
+              onClick={() => router.push(`/dashboard/room/${room.id}`)}
+            >
+              <div className="absolute right-2 top-2" onClick={(e) => e.stopPropagation()}>
                 <DropdownMenu>
                   <DropdownMenuTrigger className="rounded-md p-1 hover:bg-gray-100">
                     <MoreVertical className="h-4 w-4 text-gray-500" />
