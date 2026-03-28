@@ -1,6 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import {
     IsDate,
+    IsIn,
     IsNumber,
     IsOptional,
     IsString,
@@ -9,6 +10,7 @@ import {
     IsObject,
 } from 'class-validator';
 import { GrowConditions } from '../../growConditions/entity/growConditions.entity';
+import { PLANT_TYPES, PlantType } from '../../utils/const';
 
 export class HerbRequestDto {
     @ApiProperty({ description: 'Name of the herb', example: 'Basil' })
@@ -45,6 +47,16 @@ export class HerbRequestDto {
     @IsOptional()
     @IsDate()
     lastWatering?: Date;
+
+    @ApiProperty({
+        description: 'Plant type',
+        example: 'herb',
+        enum: PLANT_TYPES,
+        required: false,
+    })
+    @IsOptional()
+    @IsIn(PLANT_TYPES)
+    plantType?: PlantType;
 
     @ApiProperty({
         description: 'Grow Conditions of herb',

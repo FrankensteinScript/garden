@@ -11,6 +11,7 @@ import { History } from '../../history/entity/history.entity';
 import { Room } from '../../room/entity/room.entity';
 import { Notification } from '../../notification/entity/notification.entity';
 import { GrowConditions } from '../../growConditions/entity/growConditions.entity';
+import { PLANT_TYPES, PlantType } from '../../utils/const';
 
 @Entity({ name: 'herb' })
 export class Herb extends BaseEntity {
@@ -31,6 +32,16 @@ export class Herb extends BaseEntity {
 
     @Column({ type: 'timestamptz' })
     lastWatering!: Date;
+
+    @Column({ type: 'varchar', nullable: true })
+    imageUrl!: string | null;
+
+    @Column({
+        type: 'enum',
+        enum: PLANT_TYPES,
+        default: 'herb',
+    })
+    plantType!: PlantType;
 
     @OneToMany(() => History, (history) => history.herb)
     histories!: History[];

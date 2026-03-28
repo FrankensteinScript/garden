@@ -1,9 +1,28 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { Thermometer, Droplets, Droplet } from "lucide-react";
+import { Thermometer, Droplets, Droplet, Leaf } from "lucide-react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import type { Herb } from "@/types/api";
+import { Badge } from "@/components/ui/badge";
+import type { Herb, PlantType } from "@/types/api";
+
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
+
+const PLANT_TYPE_LABELS: Record<PlantType, string> = {
+  herb: "Bylinka",
+  flower: "Kvetina",
+  vegetable: "Zelenina",
+  fruit: "Ovoce",
+  other: "Ostatni",
+};
+
+const PLANT_TYPE_COLORS: Record<PlantType, string> = {
+  herb: "bg-green-100 text-green-800",
+  flower: "bg-pink-100 text-pink-800",
+  vegetable: "bg-orange-100 text-orange-800",
+  fruit: "bg-purple-100 text-purple-800",
+  other: "bg-gray-100 text-gray-800",
+};
 
 interface HerbCardProps {
   herb: Herb;
@@ -22,19 +41,41 @@ function getStatus(herb: Herb): { color: string; label: string } {
 export function HerbCard({ herb }: HerbCardProps) {
   const router = useRouter();
   const status = getStatus(herb);
+  const plantType = herb.plantType || "herb";
 
   return (
     <Card
-      className="cursor-pointer transition-shadow hover:shadow-md"
+      className="cursor-pointer transition-shadow hover:shadow-md overflow-hidden"
       onClick={() => router.push(`/dashboard/herb/${herb.id}`)}
     >
+      {/* Image or placeholder */}
+      <div className="h-32 bg-gradient-to-br from-green-50 to-green-100 flex items-center justify-center overflow-hidden">
+        {herb.imageUrl ? (
+          <img
+            src={`${API_URL}${herb.imageUrl}`}
+            alt={herb.name}
+            className="h-full w-full object-cover"
+          />
+        ) : (
+          <Leaf className="h-12 w-12 text-green-200" />
+        )}
+      </div>
+
       <CardHeader className="pb-2">
         <div className="flex items-center justify-between">
           <CardTitle className="text-lg">{herb.name}</CardTitle>
-          <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
-            <span className={`h-2.5 w-2.5 rounded-full ${status.color}`} />
-            {status.label}
-          </span>
+          <div className="flex items-center gap-2">
+            <Badge
+              variant="secondary"
+              className={PLANT_TYPE_COLORS[plantType]}
+            >
+              {PLANT_TYPE_LABELS[plantType]}
+            </Badge>
+            <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
+              <span className={`h-2.5 w-2.5 rounded-full ${status.color}`} />
+              {status.label}
+            </span>
+          </div>
         </div>
       </CardHeader>
       <CardContent>

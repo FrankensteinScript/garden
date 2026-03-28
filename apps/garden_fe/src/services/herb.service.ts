@@ -25,4 +25,13 @@ export const herbService = {
   async remove(id: string): Promise<void> {
     await api.delete(`/herb/${id}`);
   },
+
+  async uploadImage(herbId: string, file: File): Promise<Herb> {
+    const formData = new FormData();
+    formData.append('image', file);
+    const response = await api.post<Herb>(`/herb/${herbId}/image`, formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    });
+    return response.data;
+  },
 };

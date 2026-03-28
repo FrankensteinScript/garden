@@ -33,6 +33,8 @@ export interface Herb {
   humidity: number;
   soilMoisture: number;
   lastWatering: string;
+  imageUrl?: string | null;
+  plantType: PlantType;
   roomId?: string;
   notificationIds: string[];
   historyIds: string[];
@@ -64,6 +66,8 @@ export interface Notification {
   createdAt: string;
   updatedAt: string;
 }
+
+export type PlantType = 'herb' | 'flower' | 'vegetable' | 'fruit' | 'other';
 
 export type SoilType = 'sandy' | 'loamy' | 'clay' | 'other';
 
@@ -128,6 +132,7 @@ export interface HerbCreateRequest {
   humidity: number;
   soilMoisture: number;
   lastWatering: string;
+  plantType?: PlantType;
   roomId?: string;
   growConditionId: string;
 }
@@ -139,6 +144,7 @@ export interface HerbUpdateRequest {
   humidity?: number;
   soilMoisture?: number;
   lastWatering?: string;
+  plantType?: PlantType;
   roomId?: string;
   growConditionId?: string;
 }
